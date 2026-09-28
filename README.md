@@ -15,7 +15,7 @@ are kept in `localStorage`; use the backup button on the Import page to keep a c
   fetched over `file://`; use `dist/index.html` for that.)
 - **Single file:** `python3 tools/build_single.py` writes `dist/index.html` with CSS, JS and data inlined.
 
-## What it does today (phases 1 to 3)
+## What it does today (phases 1 to 4)
 
 | Section | What you get |
 |---|---|
@@ -31,6 +31,7 @@ are kept in `localStorage`; use the backup button on the Import page to keep a c
 | Lootfrogs | Average loot per frog, per spawn and per full-capacity spawn. |
 | Card shards | Hours per shard for every misc card at your current rates. |
 | Best floor | Ores or veins per hour on every floor with and without void portals, the best floors ranked, and whether the Void drone is worth running. |
+| Stat model | The Total Resources calculator's full stat model (116 stats × 21 sources) evaluated in the browser. Checks itself against your export, breaks any stat down by source, ranks which next level moves a target stat most, and lets you enter the inputs the export lacks (artifacts, ore cards, bundles, statues). |
 
 ## Project layout
 
@@ -42,16 +43,31 @@ js/store.js         snapshot storage (localStorage)
 js/parse.js         export parsing, stat classification, analysis, growth math
 js/calcs.js         ported calculators (pure functions)
 js/floors.js        best floor to farm model (ores and veins)
+js/engine.js        tiny spreadsheet formula engine (IF/SUM/PRODUCT/MIN/MAX/COUNTIF/INDEX/FLOOR/CEILING/ROUND/GEOSUM)
+js/model.js         stat model: export-to-input mapping, validation, breakdown, next-level advisor
 js/views.js         core sections
 js/views_calcs.js   calculator sections
 js/views_floors.js  best floor section
+js/views_model.js   stat model section
 js/app.js           routing and state
 data/bombs.json     bomb base cooldowns (from the community Total Resources calculator)
 data/contracts.json contract list, cost curves and level caps (from Contract & Damage Calc 2.0)
 data/floors.json    ore-per-floor fractions, vein zones, bar costs, speed and cap tables (from Best Floor To Farm 3.3.4)
+data/model.json     the stat model: 3,251 formulas and their constants, extracted from Total Resources v7.2 (tools/export_model.py)
+data/model_map.json which model input each export array fills, plus every labelled input cell (tools/export_map.py)
 docs/formulas/      every formula extracted from the community spreadsheets
-tools/              extract_formulas.py, build_single.py, test.js (node tools/test.js)
+tools/              extract_formulas.py, export_model.py, export_map.py, build_single.py, test.js (node tools/test.js)
 ```
+
+## How the stat model works
+
+`tools/export_model.py` starts from the Statmath sheet's Total column and follows every cell reference
+transitively, dumping 3,251 formulas into `data/model.json`. `js/engine.js` parses and evaluates them
+lazily in the browser. `tools/export_map.py` records which input cells each export array fills (the
+sheets list upgrades in the same order as the game's arrays) and labels every remaining input so it can
+be entered by hand. The Stat model page compares each computed stat with the exported value, so a
+mismatch points straight at a missing input. Re-run both tools when a new version of the calculator
+comes out.
 
 ## Formula reference
 
@@ -70,8 +86,10 @@ python3 tools/extract_formulas.py <folder-with-xlsx> docs/formulas
 1. ~~JSON import, snapshots, overview, bombs, growth~~ (done)
 2. ~~Port the small calculators: contracts, Transmuter vs BoP, veins, Frogger, lootfrogs, card shards~~ (done, tests in tools/test.js)
 3. ~~Best floor to farm (ores per floor, void, veins) from Best Floor to Farm 3.3.4~~ (done)
-4. Full stat model from Total Resources v7.2 (Statmath: Base × Upgrades × Contracts × Prestige × Items)
-   so upgrade purchases can be simulated and ranked by value per cost
+4. ~~Full stat model from Total Resources v7.2~~ (done: engine, extraction, export mapping for upgrades,
+   contracts, workshop, challenges, stars, pets, idols, skill tree, obelisks, world quests, fish cards)
+   - still to do: map more export arrays (fishing upgrades, relics, star upgrades, drone suits, gem upgrades),
+     add upgrade costs so the advisor can rank by value per resource, and re-extract when the sheet updates
 5. Charts for snapshot history
 
 ## Credits

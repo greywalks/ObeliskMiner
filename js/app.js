@@ -12,7 +12,7 @@
     return (id && OM.store.get(id)) || OM.store.latest();
   };
 
-  const ROUTES = ['import', 'overview', 'growth', 'stats', 'bombs', 'floors', 'contracts', 'crafting', 'veins', 'frogger', 'lootfrogs', 'cards', 'about'];
+  const ROUTES = ['import', 'overview', 'growth', 'stats', 'bombs', 'floors', 'model', 'contracts', 'crafting', 'veins', 'frogger', 'lootfrogs', 'cards', 'about'];
 
   OM.render = function () {
     let route = (location.hash || '').replace('#', '');
@@ -33,11 +33,13 @@
 
   function loadData() {
     // bombs.json is inlined when built as a single file; otherwise fetch it.
-    if (OM.data.bombs && OM.data.contracts && OM.data.floors) return Promise.resolve();
+    if (OM.data.bombs && OM.data.contracts && OM.data.floors && OM.data.model) return Promise.resolve();
     return Promise.all([
       fetch('data/bombs.json').then(r => r.json()).then(d => { OM.data.bombs = d.bombs; }),
       fetch('data/contracts.json').then(r => r.json()).then(d => { OM.data.contracts = d; }),
-      fetch('data/floors.json').then(r => r.json()).then(d => { OM.data.floors = d; })
+      fetch('data/floors.json').then(r => r.json()).then(d => { OM.data.floors = d; }),
+      fetch('data/model.json').then(r => r.json()).then(d => { OM.data.model = d; }),
+      fetch('data/model_map.json').then(r => r.json()).then(d => { OM.data.modelMap = d; })
     ]).catch(() => { OM.data.bombs = OM.data.bombs || []; OM.data.contracts = OM.data.contracts || { contracts: [], pointsTable: [], tags: {} }; OM.data.floors = OM.data.floors || { ores: [], veins: [], speedFloors: { ranges: [], world3: [73, 102, 0.7], world4Start: 103, voidReduced: [] }, goldenFloorCaps: { caps: [], rainbowTierScale: [], halfGoldenOre: [], prismaticMinus: [] }, w4SpeedByQuests: [[0, 0.8]] }; OM.toast('Could not load data files'); });
   }
 

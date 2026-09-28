@@ -3,9 +3,9 @@
 const fs=require('fs');
 global.window={}; global.document={addEventListener(){}, getElementById(){return {}}};
 global.localStorage={_:{}, getItem(k){return this._[k]||null}, setItem(k,v){this._[k]=v}, removeItem(k){delete this._[k]}};
-for (const f of ['util','store','parse','calcs','floors']) eval(fs.readFileSync(__dirname+'/../js/'+f+'.js','utf8'));
+for (const f of ['util','store','parse','calcs','floors','engine','model']) eval(fs.readFileSync(__dirname+'/../js/'+f+'.js','utf8'));
 const OM=window.OM;
-OM.data={bombs:JSON.parse(fs.readFileSync(__dirname+'/../data/bombs.json','utf8')).bombs, contracts:JSON.parse(fs.readFileSync(__dirname+'/../data/contracts.json','utf8')), floors:JSON.parse(fs.readFileSync(__dirname+'/../data/floors.json','utf8'))};
+OM.data={bombs:JSON.parse(fs.readFileSync(__dirname+'/../data/bombs.json','utf8')).bombs, contracts:JSON.parse(fs.readFileSync(__dirname+'/../data/contracts.json','utf8')), floors:JSON.parse(fs.readFileSync(__dirname+'/../data/floors.json','utf8')), model:JSON.parse(fs.readFileSync(__dirname+'/../data/model.json','utf8')), modelMap:JSON.parse(fs.readFileSync(__dirname+'/../data/model_map.json','utf8'))};
 const close=(a,b,t=0.01)=>Math.abs(a-b)/Math.max(Math.abs(b),1e-12)<t;
 let fails=0; const check=(name,a,b,t)=>{const ok=close(a,b,t); if(!ok)fails++; console.log((ok?'PASS':'FAIL')+' '+name+': '+a+' vs sheet '+b);};
 
@@ -48,4 +48,12 @@ check('w4 speed 29 quests',OM.calc.floors.w4Speed(29),0.2); check('w4 speed 5 qu
 // Void: Tin on floor 1 with 100% normal portals of multi 2: own 0.8*0 + portals: tin 0.8*2/1 + copper 0.2*2/2 = 1.8 -> *10*2880
 const fv=Object.assign({},fp,{voidC:1,voidM:2}); fo=OM.calc.floors.ore('Tin',fv); check('tin void floor1',fo.rows[0].void,1.8*10*2880);
 let fvn=OM.calc.floors.vein('Stone Vein',Object.assign({},fp,{veinSpawn:30})); check('stone veins/screen (30/15)',fvn.veinsPerScreen,2); check('stone floor 1 veins/h',fvn.rows[0].base,2*2880); check('stone floor 9 out of zone',fvn.rows[8].base,0);
+// Engine: formula grammar
+const E=new OM.Engine({stats:[],cells:{'S!A1':{v:3},'S!A2':{v:4},'S!B1':{f:'A1*A2+1'},'S!B2':{f:'IF(A1>2,"yes","no")'},'S!B3':{f:'SUM(A1:A2,C1)'},'S!B4':{f:'PRODUCT(A1:A2,C1)'},'S!B5':{f:'GEOSUM(1.3,3)'},'S!B6':{f:'COUNTIF(D1:D3,"=TRUE")'},'S!D1':{v:true},'S!D2':{v:false},'S!D3':{v:true},'S!B7':{f:'=IF(D2,1,IF(D1,2,0))'},'S!B8':{f:'FLOOR(PRODUCT(A1:A2)-1,0.01)'},'S!B9':{f:'MIN(A1*0.5,1)'}}});
+check('engine mul',E.get('S!B1'),13); check('engine if',E.get('S!B2')==='yes'?1:0,1); check('engine sum blanks',E.get('S!B3'),7); check('engine product blanks',E.get('S!B4'),12);
+check('engine geosum',E.get('S!B5'),1+1.3+1.69); check('engine countif',E.get('S!B6'),2); check('engine nested if ==',E.get('S!B7'),2); check('engine floor',E.get('S!B8'),11); check('engine min',E.get('S!B9'),1);
+// Model: builds without formula errors and computes a few known-good stats from the fixture arrays
+const fx=JSON.parse(fs.readFileSync(__dirname+'/../tests/fixture_arrays.json','utf8'));
+const eng=OM.model.build(fx); eng.stat('Pickaxe Damage');
+check('model formula errors',(eng.errors||[]).length,0); check('model free bomb chance',eng.stat('Free Bomb Chance')*100,20); check('model double craft',eng.stat('Double Craft Chance')*100,86); check('model cherry triple',eng.stat('Triple Cherry Charge Chance')*100,16);
 console.log(fails?`\n${fails} FAILED`:'\nALL PASS');

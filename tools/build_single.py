@@ -11,11 +11,13 @@ html = html.replace('<link rel="stylesheet" href="css/app.css">', '<style>\n' + 
 bombs = json.load(open(os.path.join(root, 'data/bombs.json')))
 contracts = json.load(open(os.path.join(root, 'data/contracts.json')))
 floors = json.load(open(os.path.join(root, 'data/floors.json')))
-data_js = 'window.OM = window.OM || {}; window.OM.data = ' + json.dumps({'bombs': bombs['bombs'], 'contracts': contracts, 'floors': floors}) + ';'
+model = json.load(open(os.path.join(root, 'data/model.json')))
+model_map = json.load(open(os.path.join(root, 'data/model_map.json')))
+data_js = 'window.OM = window.OM || {}; window.OM.data = ' + json.dumps({'bombs': bombs['bombs'], 'contracts': contracts, 'floors': floors, 'model': model, 'modelMap': model_map}) + ';'
 scripts = [data_js]
 for m in re.finditer(r'<script src="(js/[^"]+)"></script>', html):
     scripts.append(open(os.path.join(root, m.group(1))).read())
-html = re.sub(r'(<script src="js/[^"]+"></script>\s*)+', '<script>\n' + '\n'.join(scripts) + '\n</script>\n', html)
+html = re.sub(r'(<script src="js/[^"]+"></script>\s*)+', lambda m: '<script>\n' + '\n'.join(scripts) + '\n</script>\n', html)
 os.makedirs(os.path.join(root, 'dist'), exist_ok=True)
 open(os.path.join(root, 'dist/index.html'), 'w').write(html)
 print('wrote dist/index.html', len(html), 'bytes')
