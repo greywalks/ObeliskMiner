@@ -79,6 +79,7 @@ label > input, label > select { color: var(--ink); }
   border-left: 3px solid transparent;
 }
 .nav a:hover { background: var(--rock-3); }
+.navhead { color: var(--ink-2); font-size: .78rem; padding: .7rem .65rem .15rem; }
 .nav a.active { background: var(--rock-3); border-left-color: var(--copper); }
 .side .snap { margin-top: 1.4rem; font-size: .85rem; color: var(--ink-2); }
 .side .snap select { width: 100%; margin-top: .3rem; }
@@ -152,9 +153,18 @@ tr.hl td { background: rgba(214,137,63,.08); }
     </div>
     <nav class="nav" aria-label="Sections">
       <a href="#overview">Overview</a>
-      <a href="#bombs">Bombs</a>
       <a href="#growth">Growth</a>
       <a href="#stats">All stats</a>
+      <span class="navhead">Calculators</span>
+      <a href="#bombs">Bombs</a>
+      <a href="#floors">Best floor</a>
+      <a href="#contracts">Contracts</a>
+      <a href="#crafting">Transmuter vs BoP</a>
+      <a href="#veins">Veins</a>
+      <a href="#frogger">Frogger</a>
+      <a href="#lootfrogs">Lootfrogs</a>
+      <a href="#cards">Card shards</a>
+      <span class="navhead"></span>
       <a href="#import">Import</a>
       <a href="#about">About</a>
     </nav>
@@ -167,6 +177,13 @@ tr.hl td { background: rgba(214,137,63,.08); }
     <section id="view-import"></section>
     <section id="view-overview"></section>
     <section id="view-bombs"></section>
+    <section id="view-floors"></section>
+    <section id="view-contracts"></section>
+    <section id="view-crafting"></section>
+    <section id="view-veins"></section>
+    <section id="view-frogger"></section>
+    <section id="view-lootfrogs"></section>
+    <section id="view-cards"></section>
     <section id="view-growth"></section>
     <section id="view-stats"></section>
     <section id="view-about"></section>
@@ -174,7 +191,7 @@ tr.hl td { background: rgba(214,137,63,.08); }
 </div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <script>
-window.OM = window.OM || {}; window.OM.data = {"bombs": [{"key": "basic", "name": "Basic Bomb", "base": 30, "effect": "No special effect"}, {"key": "chain", "name": "Chain Bomb", "base": 60, "effect": "Fires multiple bombs"}, {"key": "plenty", "name": "Bomb of Plenty", "base": 110, "effect": "Marks ores to give more ores; chance to turn ores golden"}, {"key": "exp", "name": "Exp Bomb", "base": 120, "effect": "Marks ores to give more exp"}, {"key": "mega", "name": "MEGABOMB", "base": 120, "effect": "Marks ores to take more damage"}, {"key": "infinity", "name": "Infinity Bomb", "base": 160, "effect": "Increases damage multi per infinity bomb fired"}, {"key": "transmuter", "name": "Transmuter Bomb", "base": 250, "effect": "Marks ores to drop bars; chance to apply a Bomb of Plenty stack"}, {"key": "gem", "name": "Gem Bomb", "base": 315, "effect": "Chance to get a gem when fired"}, {"key": "cherry", "name": "Cherry Bomb", "base": 330, "effect": "Next bomb fired will not consume a charge; chance for triple charge"}, {"key": "battery", "name": "Battery Bomb", "base": 345, "effect": "Charges 2 random bombs; 0.1% chance to raise bomb capacity by 1"}, {"key": "d20", "name": "D20 Bomb", "base": 400, "effect": "5% chance to refill other bomb charges"}, {"key": "founders", "name": "Founder's Bomb", "base": 540, "effect": "10% chance to give 10 seconds of 2x game speed"}, {"key": "veinmorpher", "name": "Veinmorpher Bomb", "base": 570, "effect": "Chance to morph all ores to veins; chance to make all veins golden"}]};
+window.OM = window.OM || {}; window.OM.data = {"bombs": [{"key": "basic", "name": "Basic Bomb", "base": 30, "effect": "No special effect"}, {"key": "chain", "name": "Chain Bomb", "base": 60, "effect": "Fires multiple bombs"}, {"key": "plenty", "name": "Bomb of Plenty", "base": 110, "effect": "Marks ores to give more ores; chance to turn ores golden"}, {"key": "exp", "name": "Exp Bomb", "base": 120, "effect": "Marks ores to give more exp"}, {"key": "mega", "name": "MEGABOMB", "base": 120, "effect": "Marks ores to take more damage"}, {"key": "infinity", "name": "Infinity Bomb", "base": 160, "effect": "Increases damage multi per infinity bomb fired"}, {"key": "transmuter", "name": "Transmuter Bomb", "base": 250, "effect": "Marks ores to drop bars; chance to apply a Bomb of Plenty stack"}, {"key": "gem", "name": "Gem Bomb", "base": 315, "effect": "Chance to get a gem when fired"}, {"key": "cherry", "name": "Cherry Bomb", "base": 330, "effect": "Next bomb fired will not consume a charge; chance for triple charge"}, {"key": "battery", "name": "Battery Bomb", "base": 345, "effect": "Charges 2 random bombs; 0.1% chance to raise bomb capacity by 1"}, {"key": "d20", "name": "D20 Bomb", "base": 400, "effect": "5% chance to refill other bomb charges"}, {"key": "founders", "name": "Founder's Bomb", "base": 540, "effect": "10% chance to give 10 seconds of 2x game speed"}, {"key": "veinmorpher", "name": "Veinmorpher Bomb", "base": 570, "effect": "Chance to morph all ores to veins; chance to make all veins golden"}], "contracts": {"_source": "Contract & Damage Calc 2.0 (sheets 'Info' and 'Expected Contracts Required'). Level cost = ceil(base * 1.3^(level-1)) unless a 'table' is given. Max level = maxBase + contract_cap_increase. Index = position in contracts_array.", "pointsTable": [10, 500, 1500, 3000, 5000, 8500, 12500, 14000, 17000, 20000, 23000, 26000, 29000, 32000], "contracts": [{"world": 1, "name": "Pickaxe damage per contract complete", "tag": "D", "table": true, "maxBase": 1}, {"world": 1, "name": "Triple craft chance", "tag": "O", "base": 14, "maxBase": 5}, {"world": 1, "name": "Pickaxe super crit chance", "tag": "D", "base": 18, "maxBase": 5}, {"world": 1, "name": "Bomb recharge rate", "tag": "F", "base": 22, "maxBase": 5}, {"world": 1, "name": "Exp gain", "tag": "F", "base": 26, "maxBase": 5}, {"world": 1, "name": "Pickaxe crit damage", "tag": "D", "base": 30, "maxBase": 5}, {"world": 1, "name": "Pickaxe damage", "tag": "D", "base": 34, "maxBase": 3}, {"world": 1, "name": "Upgrade bar costs", "tag": "F", "base": 38, "maxBase": 3}, {"world": 1, "name": "Prestige point gain", "tag": "F", "base": 42, "maxBase": 3}, {"world": 1, "name": "10x craft chance", "tag": "O", "base": 150, "maxBase": 1}, {"world": 2, "name": "Bomb damage per contract complete", "tag": "D", "table": true, "maxBase": 1}, {"world": 2, "name": "Ore sell price", "tag": "F", "base": 75, "maxBase": 10}, {"world": 2, "name": "Vein spawn rate", "tag": "V", "base": 100, "maxBase": 5}, {"world": 2, "name": "Pickaxe and bomb ultra crit chance", "tag": "D", "base": 125, "maxBase": 5}, {"world": 2, "name": "Golden floor multiplier", "tag": "O", "base": 150, "maxBase": 5}, {"world": 2, "name": "Golden vein chance", "tag": "V", "base": 175, "maxBase": 5}, {"world": 2, "name": "Super star spawn rate", "tag": "S", "base": 200, "maxBase": 5}, {"world": 2, "name": "Base game speed", "tag": "F", "base": 250, "maxBase": 10}, {"world": 2, "name": "Rainbow floor multiplier", "tag": "O", "base": 265, "maxBase": 10}, {"world": 2, "name": "Super star supernova chance", "tag": "S", "base": 280, "maxBase": 10}, {"world": 3, "name": "Rainbow floor chance", "tag": "O", "base": 300, "maxBase": 10}, {"world": 3, "name": "Golden ore chance", "tag": "O", "base": 325, "maxBase": 15}, {"world": 3, "name": "Pickaxe and bomb omega crit chance", "tag": "D", "base": 350, "maxBase": 15}, {"world": 3, "name": "Pickaxe and bomb damage", "tag": "D", "base": 400, "maxBase": 5}, {"world": 3, "name": "Star supergiant chance", "tag": "S", "base": 500, "maxBase": 5}, {"world": 3, "name": "Super star supergiant chance", "tag": "S", "base": 550, "maxBase": 5}, {"world": 4, "name": "Rainbow vein multiplier", "tag": "V", "base": 2500, "maxBase": 5}, {"world": 4, "name": "Prismatic floor multiplier", "tag": "O", "base": 3250, "maxBase": 5}, {"world": 4, "name": "All star multiplier", "tag": "S", "base": 4000, "maxBase": 5}, {"world": 4, "name": "Lootfrog triple spawn chance", "tag": "F", "base": 4750, "maxBase": 5}, {"world": 4, "name": "Golden portal multiplier", "tag": "O", "base": 5500, "maxBase": 5}, {"world": 4, "name": "All radiant multiplier", "tag": "S", "base": 6000, "maxBase": 5}, {"world": 4, "name": "Rune craft multiplier", "tag": "O", "base": 6500, "maxBase": 5}], "tags": {"D": "Damage", "O": "Ores / bars", "F": "Farming", "V": "Veins", "S": "Stars"}}, "floors": {"_source": "IOM Best Floor To Farm V3.3.4 (Zones and Ores per Floor sheets). floors = fraction of ores on that floor that are this ore. barCost = base ore cost of the matching bar (Zones sheet); multiply by bar_craft_cost_multi for the current cost.", "ores": [{"name": "Tin", "world": 1, "firstFloor": 1, "floors": {"1": 0.8, "2": 0.5}, "barCost": 5.0}, {"name": "Copper", "world": 1, "firstFloor": 1, "floors": {"1": 0.2, "2": 0.5, "3": 0.8, "4": 0.5}, "barCost": 6.0}, {"name": "Mithril", "world": 1, "firstFloor": 3, "floors": {"3": 0.2, "4": 0.5, "5": 0.8, "6": 0.5}, "barCost": 7.0}, {"name": "Adamant", "world": 1, "firstFloor": 5, "floors": {"5": 0.2, "6": 0.5, "7": 0.8, "8": 0.5}, "barCost": 8.0}, {"name": "Runite", "world": 1, "firstFloor": 7, "floors": {"7": 0.2, "8": 0.5, "9": 0.8, "10": 0.5}, "barCost": 9.0}, {"name": "Citrine", "world": 1, "firstFloor": 9, "floors": {"9": 0.2, "10": 0.5, "11": 0.8, "12": 0.5}, "barCost": 10.0}, {"name": "Amethyst", "world": 1, "firstFloor": 11, "floors": {"11": 0.2, "12": 0.5, "13": 0.8, "14": 0.5}, "barCost": 11.0}, {"name": "Topaz", "world": 1, "firstFloor": 13, "floors": {"13": 0.2, "14": 0.5, "15": 0.8, "16": 0.5}, "barCost": 12.0}, {"name": "Obsidian", "world": 1, "firstFloor": 15, "floors": {"15": 0.2, "16": 0.5, "17": 0.8, "18": 0.5}, "barCost": 13.0}, {"name": "Demonite", "world": 1, "firstFloor": 17, "floors": {"17": 0.2, "18": 0.5}, "barCost": 14.0}, {"name": "VR-Tin", "world": 1, "firstFloor": 19, "floors": {"19": 0.8, "20": 0.5}, "barCost": 16.0}, {"name": "VR-Amethyst", "world": 1, "firstFloor": 19, "floors": {"19": 0.2, "20": 0.5, "21": 0.8, "22": 0.5}, "barCost": 18.0}, {"name": "VR-Demonite", "world": 1, "firstFloor": 21, "floors": {"21": 0.2, "22": 0.5, "23": 0.8, "24": 0.5}, "barCost": 20.0}, {"name": "VR-ERROR", "world": 1, "firstFloor": 23, "floors": {"23": 0.2, "24": 0.5}, "barCost": 22.0}, {"name": "Lunarium", "world": 1, "firstFloor": 25, "floors": {"25": 0.8, "26": 0.5}, "barCost": 25.0}, {"name": "Earth-C-137", "world": 1, "firstFloor": 25, "floors": {"25": 0.2, "26": 0.5, "27": 0.8, "28": 0.5}, "barCost": 28.0}, {"name": "Meteorite", "world": 1, "firstFloor": 27, "floors": {"27": 0.2, "28": 0.5, "29": 0.8, "30": 0.5}, "barCost": 31.0}, {"name": "Singularity", "world": 1, "firstFloor": 29, "floors": {"29": 0.2, "30": 0.5}, "barCost": 34.0}, {"name": "Halium", "world": 1, "firstFloor": 31, "floors": {"31": 0.8, "32": 0.5}, "barCost": 38.0}, {"name": "Blasphemite", "world": 1, "firstFloor": 31, "floors": {"31": 0.2, "32": 0.5, "33": 0.8, "34": 0.5}, "barCost": 42.0}, {"name": "Angelite", "world": 1, "firstFloor": 33, "floors": {"33": 0.2, "34": 0.5, "35": 0.8, "36": 0.5}, "barCost": 46.0}, {"name": "Elysium", "world": 1, "firstFloor": 35, "floors": {"35": 0.2, "36": 0.5}, "barCost": 50.0}, {"name": "Enemite", "world": 1, "firstFloor": 37, "floors": {"37": 0.8, "38": 0.5}, "barCost": 60.0}, {"name": "Beepboopium", "world": 1, "firstFloor": 37, "floors": {"37": 0.2, "38": 0.5, "39": 0.8, "40": 0.5}, "barCost": 70.0}, {"name": "Radion-73", "world": 1, "firstFloor": 39, "floors": {"39": 0.2, "40": 0.5, "41": 0.8, "42": 0.5}, "barCost": 80.0}, {"name": "Cranium", "world": 1, "firstFloor": 41, "floors": {"41": 0.2, "42": 0.5}, "barCost": 90.0}, {"name": "Lapis", "world": 2, "firstFloor": 43, "floors": {"43": 0.8, "44": 0.5}, "barCost": 100.0}, {"name": "Quartz", "world": 2, "firstFloor": 43, "floors": {"43": 0.2, "44": 0.5, "45": 0.8, "46": 0.5}, "barCost": 110.0}, {"name": "Glacialite", "world": 2, "firstFloor": 45, "floors": {"45": 0.2, "46": 0.5, "47": 0.8, "48": 0.5}, "barCost": 120.0}, {"name": "Twinklestone", "world": 2, "firstFloor": 47, "floors": {"47": 0.2, "48": 0.5}, "barCost": 130.0}, {"name": "Sandcasium", "world": 2, "firstFloor": 49, "floors": {"49": 0.8, "50": 0.5}, "barCost": 140.0}, {"name": "Clamite", "world": 2, "firstFloor": 49, "floors": {"49": 0.2, "50": 0.5, "51": 0.8, "52": 0.5}, "barCost": 150.0}, {"name": "Thunderstone", "world": 2, "firstFloor": 51, "floors": {"51": 0.2, "52": 0.5, "53": 0.8, "54": 0.5}, "barCost": 160.0}, {"name": "Crabrock", "world": 2, "firstFloor": 53, "floors": {"53": 0.2, "54": 0.5}, "barCost": 170.0}, {"name": "Hailstone", "world": 2, "firstFloor": 55, "floors": {"55": 0.8, "56": 0.5}, "barCost": 180.0}, {"name": "Frostbite", "world": 2, "firstFloor": 55, "floors": {"55": 0.2, "56": 0.5, "57": 0.8, "58": 0.5}, "barCost": 190.0}, {"name": "Icebloom", "world": 2, "firstFloor": 57, "floors": {"57": 0.2, "58": 0.5, "59": 0.8, "60": 0.5}, "barCost": 200.0}, {"name": "Pinguinus", "world": 2, "firstFloor": 59, "floors": {"59": 0.2, "60": 0.5}, "barCost": 210.0}, {"name": "Macawrock", "world": 2, "firstFloor": 61, "floors": {"61": 0.8, "62": 0.5}, "barCost": 238.0}, {"name": "Cocore", "world": 2, "firstFloor": 61, "floors": {"61": 0.2, "62": 0.5, "63": 0.8, "64": 0.5}, "barCost": 266.0}, {"name": "Rafflenium", "world": 2, "firstFloor": 63, "floors": {"63": 0.2, "64": 0.5, "65": 0.8, "66": 0.5}, "barCost": 294.0}, {"name": "Carnivorian", "world": 2, "firstFloor": 65, "floors": {"65": 0.2, "66": 0.5}, "barCost": 322.0}, {"name": "Infernite", "world": 2, "firstFloor": 67, "floors": {"67": 0.8, "68": 0.5}, "barCost": 350.0}, {"name": "Blood-Onyx", "world": 2, "firstFloor": 67, "floors": {"67": 0.2, "68": 0.5, "69": 0.8, "70": 0.5}, "barCost": 378.0}, {"name": "Cyrogem", "world": 2, "firstFloor": 69, "floors": {"69": 0.2, "70": 0.5, "71": 0.8, "72": 0.5}, "barCost": 406.0}, {"name": "Pinnaclite", "world": 2, "firstFloor": 71, "floors": {"71": 0.2, "72": 0.5}, "barCost": 434.0}, {"name": "Omeletite", "world": 3, "firstFloor": 73, "floors": {"73": 0.8, "74": 0.5}, "barCost": 502.0}, {"name": "Resinite", "world": 3, "firstFloor": 73, "floors": {"73": 0.2, "74": 0.5, "75": 0.8, "76": 0.5}, "barCost": 570.0}, {"name": "Impactium", "world": 3, "firstFloor": 75, "floors": {"75": 0.2, "76": 0.5, "77": 0.8, "78": 0.5}, "barCost": 638.0}, {"name": "Tricerastone", "world": 3, "firstFloor": 77, "floors": {"77": 0.2, "78": 0.5}, "barCost": 706.0}, {"name": "Duelysium", "world": 3, "firstFloor": 79, "floors": {"79": 0.8, "80": 0.5}, "barCost": 774.0}, {"name": "Arcusite", "world": 3, "firstFloor": 79, "floors": {"79": 0.2, "80": 0.5, "81": 0.8, "82": 0.5}, "barCost": 842.0}, {"name": "Phalanxite", "world": 3, "firstFloor": 81, "floors": {"81": 0.2, "82": 0.5, "83": 0.8, "84": 0.5}, "barCost": 910.0}, {"name": "Guardium", "world": 3, "firstFloor": 83, "floors": {"83": 0.2, "84": 0.5}, "barCost": 978.0}, {"name": "Cognite", "world": 3, "firstFloor": 85, "floors": {"85": 0.8, "86": 0.5}, "barCost": 1046.0}, {"name": "Telophite", "world": 3, "firstFloor": 85, "floors": {"85": 0.2, "86": 0.5, "87": 0.8, "88": 0.5}, "barCost": 1114.0}, {"name": "Steamstone", "world": 3, "firstFloor": 87, "floors": {"87": 0.2, "88": 0.5, "89": 0.8, "90": 0.5}, "barCost": 1182.0}, {"name": "Equinine", "world": 3, "firstFloor": 89, "floors": {"89": 0.2, "90": 0.5}, "barCost": 1250.0}, {"name": "Dynamite", "world": 3, "firstFloor": 91, "floors": {"91": 0.8, "92": 0.5}, "barCost": 1458.0}, {"name": "Genevium", "world": 3, "firstFloor": 91, "floors": {"91": 0.2, "92": 0.5, "93": 0.8, "94": 0.5}, "barCost": 1666.0}, {"name": "Manhattite", "world": 3, "firstFloor": 93, "floors": {"93": 0.2, "94": 0.5, "95": 0.8, "96": 0.5}, "barCost": 1874.0}, {"name": "Rationium", "world": 3, "firstFloor": 95, "floors": {"95": 0.2, "96": 0.5}, "barCost": 2082.0}, {"name": "Vaporium", "world": 3, "firstFloor": 97, "floors": {"97": 0.8, "98": 0.5}, "barCost": 2290.0}, {"name": "Palmite", "world": 3, "firstFloor": 97, "floors": {"97": 0.2, "98": 0.5, "99": 0.8, "100": 0.5}, "barCost": 2498.0}, {"name": "Ransomite", "world": 3, "firstFloor": 99, "floors": {"99": 0.2, "100": 0.5, "101": 0.8, "102": 0.5}, "barCost": 2706.0}, {"name": "MVPD-1988", "world": 3, "firstFloor": 101, "floors": {"101": 0.2, "102": 0.5}, "barCost": 2914.0}, {"name": "Chronite", "world": 4, "firstFloor": 103, "floors": {"103": 0.8, "104": 0.5}, "barCost": 4122.0}, {"name": "Hattium", "world": 4, "firstFloor": 103, "floors": {"103": 0.2, "104": 0.5, "105": 0.8, "106": 0.5}, "barCost": 5330.0}, {"name": "Pishalvite", "world": 4, "firstFloor": 105, "floors": {"105": 0.2, "106": 0.5, "107": 0.8, "108": 0.5}, "barCost": 6538.0}, {"name": "Teatimium", "world": 4, "firstFloor": 107, "floors": {"107": 0.2, "108": 0.5}, "barCost": 7746.0}, {"name": "Rumium", "world": 4, "firstFloor": 109, "floors": {"109": 0.8, "110": 0.5}, "barCost": 8954.0}, {"name": "Anchorium", "world": 4, "firstFloor": 109, "floors": {"109": 0.2, "110": 0.5, "111": 0.8, "112": 0.5}, "barCost": 10162.0}, {"name": "Mateyum", "world": 4, "firstFloor": 111, "floors": {"111": 0.2, "112": 0.5, "113": 0.8, "114": 0.5}, "barCost": 11370.0}, {"name": "Hookite", "world": 4, "firstFloor": 113, "floors": {"113": 0.2, "114": 0.5}, "barCost": 12578.0}, {"name": "Carpetite", "world": 4, "firstFloor": 115, "floors": {"115": 0.8, "116": 0.5}, "barCost": 13786.0}, {"name": "Djinnium", "world": 4, "firstFloor": 115, "floors": {"115": 0.2, "116": 0.5, "117": 0.8, "118": 0.5}, "barCost": 14994.0}, {"name": "Sinbadium", "world": 4, "firstFloor": 117, "floors": {"117": 0.2, "118": 0.5, "119": 0.8, "120": 0.5}, "barCost": 16202.0}, {"name": "Turbanite", "world": 4, "firstFloor": 119, "floors": {"119": 0.2, "120": 0.5}, "barCost": 17410.0}, {"name": "Carriagum", "world": 4, "firstFloor": 121, "floors": {"121": 0.8, "122": 0.5}, "barCost": 18618.0}, {"name": "Crystal-Rose", "world": 4, "firstFloor": 121, "floors": {"121": 0.2, "122": 0.5, "123": 0.8, "124": 0.5}, "barCost": 19826.0}, {"name": "Frogstone", "world": 4, "firstFloor": 123, "floors": {"123": 0.2, "124": 0.5, "125": 0.8, "126": 0.5}, "barCost": 21034.0}, {"name": "Slipperite", "world": 4, "firstFloor": 125, "floors": {"125": 0.2, "126": 0.5}, "barCost": 22242.0}, {"name": "Jellystone", "world": 4, "firstFloor": 127, "floors": {"127": 0.8, "128": 0.5}, "barCost": 23450.0}, {"name": "Lollipopite", "world": 4, "firstFloor": 127, "floors": {"127": 0.2, "128": 0.5, "129": 0.8, "130": 0.5}, "barCost": 24658.0}, {"name": "Mintium", "world": 4, "firstFloor": 129, "floors": {"129": 0.2, "130": 0.5, "131": 0.8, "132": 0.5}, "barCost": 25866.0}, {"name": "Neopolium", "world": 4, "firstFloor": 131, "floors": {"131": 0.2, "132": 0.5}, "barCost": 27074.0}], "veins": [{"name": "Stone Vein", "firstFloor": 1, "lastFloor": 8, "rarity": 15, "firstOre": 1, "lastOre": 5}, {"name": "Magma Vein", "firstFloor": 9, "lastFloor": 18, "rarity": 20, "firstOre": 6, "lastOre": 10}, {"name": "Virtual Vein", "firstFloor": 19, "lastFloor": 24, "rarity": 25, "firstOre": 11, "lastOre": 14}, {"name": "Space Vein", "firstFloor": 25, "lastFloor": 30, "rarity": 30, "firstOre": 15, "lastOre": 18}, {"name": "Cloud Vein", "firstFloor": 31, "lastFloor": 36, "rarity": 35, "firstOre": 19, "lastOre": 22}, {"name": "Atomic Vein", "firstFloor": 37, "lastFloor": 42, "rarity": 40, "firstOre": 23, "lastOre": 26}, {"name": "Deep Sea Vein", "firstFloor": 43, "lastFloor": 48, "rarity": 50, "firstOre": 27, "lastOre": 30}, {"name": "Beach Vein", "firstFloor": 49, "lastFloor": 54, "rarity": 50, "firstOre": 31, "lastOre": 34}, {"name": "Valley Vein", "firstFloor": 55, "lastFloor": 60, "rarity": 50, "firstOre": 35, "lastOre": 38}, {"name": "Jungle Vein", "firstFloor": 61, "lastFloor": 66, "rarity": 50, "firstOre": 39, "lastOre": 42}, {"name": "Volcano Vein", "firstFloor": 67, "lastFloor": 72, "rarity": 50, "firstOre": 43, "lastOre": 46}, {"name": "Jurassic Vein", "firstFloor": 73, "lastFloor": 78, "rarity": 70, "firstOre": 47, "lastOre": 50}, {"name": "Roman Vein", "firstFloor": 79, "lastFloor": 84, "rarity": 70, "firstOre": 51, "lastOre": 54}, {"name": "Industrial Vein", "firstFloor": 85, "lastFloor": 90, "rarity": 70, "firstOre": 55, "lastOre": 58}, {"name": "Warfront Vein", "firstFloor": 91, "lastFloor": 96, "rarity": 70, "firstOre": 59, "lastOre": 62}, {"name": "Neon Vein", "firstFloor": 97, "lastFloor": 102, "rarity": 70, "firstOre": 63, "lastOre": 66}, {"name": "Wonderland Vein", "firstFloor": 103, "lastFloor": 108, "rarity": 100, "firstOre": 67, "lastOre": 70}, {"name": "Pirate Vein", "firstFloor": 109, "lastFloor": 114, "rarity": 100, "firstOre": 71, "lastOre": 74}, {"name": "Arabian Vein", "firstFloor": 115, "lastFloor": 120, "rarity": 100, "firstOre": 75, "lastOre": 78}, {"name": "Enchanted Vein", "firstFloor": 121, "lastFloor": 126, "rarity": 100, "firstOre": 79, "lastOre": 82}, {"name": "Candyland Vein", "firstFloor": 127, "lastFloor": 132, "rarity": 100, "firstOre": 83, "lastOre": 86}], "speedFloors": {"_note": "per-floor game speed factors from Best Ore AO column / Best Veins AA column", "ranges": [[71, 72, 0.75], [89, 92, 0.75], [97, 98, 0.75], [119, 120, 0.7], [121, 124, 0.6]], "world3": [73, 102, 0.7], "world4Start": 103, "voidReduced": [[103, 106], [129, 132]]}, "goldenFloorCaps": {"_note": "golden floor chance cap by floor (Best Ore AN column). rainbowTierScale scales rainbow+ floor tiers. prismaticMinus reduces prismatic chance.", "caps": [[69, 72, 0.5], [75, 78, 0.5], [81, 84, 0.45], [91, 94, 0.45], [87, 90, 0.4], [99, 100, 0.4], [101, 102, 0.4], [105, 106, 0.4], [107, 108, 0.4], [111, 114, 0.35], [117, 120, 0.3], [127, 130, 0.3]], "rainbowTierScale": [[65, 66, 0.5], [85, 86, 0.5], [101, 102, 0.4], [109, 110, 0.4]], "halfGoldenOre": [[115, 116]], "prismaticMinus": [[123, 126, 0.15]]}, "w4SpeedByQuests": [[23, 0.2], [15, 0.3], [12, 0.4], [7, 0.5], [4, 0.6], [1, 0.7], [0, 0.8]]}};
 // Shared helpers. Everything hangs off window.OM so the app runs with plain
 // <script> tags (no build step, works on GitHub Pages and as a single file).
 window.OM = window.OM || {};
@@ -501,6 +518,354 @@ window.OM = window.OM || {};
   };
 })(window.OM);
 
+// Ported calculators. Pure functions: take numbers in, give numbers out.
+// Each one notes the spreadsheet it came from so the math can be checked.
+(function (OM) {
+  const n = (v, d) => (typeof v === 'number' && isFinite(v)) ? v : (d === undefined ? 0 : d);
+  const clamp01 = c => Math.min(1, Math.max(0, c));
+  // AVG_MULT(chance%, mult) = expected multiplier when it fires chance% of the time.
+  const avgMult = (chancePct, mult) => 1 + clamp01(chancePct / 100) * (mult - 1);
+
+  OM.calc = {};
+
+  // ---------- Contracts (Contract & Damage Calc 2.0) ----------
+  // Expected points per contract and its standard deviation.
+  OM.calc.contractPoints = function (p) {
+    const base = n(p.points, 1);
+    const tiers = [[p.x2, 2], [p.x3, 3], [p.x5, 5], [p.x10, 10]];
+    let mean = 1, second = 1;
+    tiers.forEach(([c, m]) => { const q = clamp01(n(c) / 100); mean *= 1 + q * (m - 1); second *= 1 + q * (m * m - 1); });
+    const variance = base * base * second - (base * mean) * (base * mean);
+    return { mean: base * mean, sd: Math.sqrt(Math.max(variance, 0)), multiplier: mean };
+  };
+  // Standard normal CDF (Abramowitz-Stegun), used for the prestige percentile.
+  OM.calc.normCdf = function (z) {
+    const t = 1 / (1 + 0.2316419 * Math.abs(z));
+    const d = 0.3989423 * Math.exp(-z * z / 2);
+    let p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+    return z > 0 ? 1 - p : p;
+  };
+  // Cost (points) of one level of one contract.
+  OM.calc.contractLevelCost = function (c, level) {
+    if (level < 1) return 0;
+    if (c.table) { const t = OM.data.contracts.pointsTable; return level <= t.length ? t[level - 1] : t[t.length - 1] * Math.pow(1.3, level - t.length); }
+    return Math.ceil(c.base * Math.pow(1.3, level - 1));
+  };
+  // Total to go from level a to level b, after the player's cost multiplier.
+  OM.calc.contractCost = function (c, from, to, costMult) {
+    let s = 0;
+    for (let l = from + 1; l <= to; l++) s += OM.calc.contractLevelCost(c, l);
+    return Math.ceil(s * n(costMult, 1));
+  };
+  // Build the contract table for a snapshot: current, max, cost to max, per-level.
+  OM.calc.contractTable = function (stats, opts) {
+    opts = opts || {};
+    const levels = stats.contracts_array || [];
+    const cap = n(stats.contract_cap_increase);
+    const costMult = n(opts.costMult, n(stats.contract_upgrade_cost_reduction, 1));
+    return OM.data.contracts.contracts.map((c, i) => {
+      const cur = n(levels[i], 0);
+      const max = c.maxBase + cap;
+      const toMax = OM.calc.contractCost(c, cur, max, costMult);
+      const next = cur < max ? OM.calc.contractCost(c, cur, cur + 1, costMult) : 0;
+      return { index: i, world: c.world, name: c.name, tag: c.tag, cur, max, next, toMax, spent: OM.calc.contractCost(c, 0, cur, costMult) };
+    });
+  };
+  // Pickaxe damage decomposition. Levels: pdPerContract (idx 0), pickaxeDamage (idx 6), pbDamage (idx 23).
+  OM.calc.contractDamage = function (p) {
+    const N = n(p.contractsComplete), cap = n(p.cap);
+    const L0 = n(p.pdPerContract), L6 = n(p.pickaxeDamage), L23 = n(p.pbDamage);
+    const base = n(p.currentDamage) / (1 + L0 * N * 0.01 + L6 * 0.15) / (1 + L23 * 0.08);
+    const potential = (base + base * ((cap + 1) * N * 0.01 + (cap + 3) * 0.15)) * (p.world3Statue ? (1 + (cap + 5) * 0.08) : 1);
+    const after = more => (base + base * ((cap + 1) * (N + more) * 0.01 + (cap + 3) * 0.15)) * (p.world3Statue ? (1 + (cap + 5) * 0.08) : 1);
+    return { base, potential, after };
+  };
+
+  // ---------- Transmuter vs Bomb of Plenty (Trans_vs_Bop_effectiveness) ----------
+  OM.calc.transVsBop = function (p) {
+    const freeMult = 100 / (100 - Math.min(n(p.free), 99.9));
+    const tiers = [[p.x2, 2], [p.x3, 3], [p.x5, 5], [p.x10, 10], [p.x20, 20], [p.x100, 100]];
+    let craftMult = freeMult;
+    const parts = tiers.map(([c, m]) => { const v = avgMult(n(c), m); craftMult *= v; return { mult: m, chance: n(c), avg: v }; });
+    const barsPerOre = craftMult / Math.max(n(p.barCost, 1), 1e-9);
+    const bopBars = barsPerOre * n(p.bopMult, 1);
+    const avgTransBop = avgMult(n(p.transBopChance), n(p.bopMult, 1));
+    const transBars = barsPerOre * avgTransBop + n(p.transMult) * avgTransBop;
+    const breakEvenCost = craftMult * (n(p.bopMult, 1) - avgTransBop) / (n(p.transMult, 1) * avgTransBop);
+    return { freeMult, craftMult, parts, barsPerOre, bopBars, transBars, avgTransBop, breakEvenCost, transWins: transBars > bopBars };
+  };
+
+  // ---------- Vein income (vein_income.xlsx) ----------
+  OM.calc.veinRarities = [['Stone', 15], ['Magma', 20], ['VR', 25], ['Space', 30], ['Sky', 35], ['Atomic', 40], ['World 2', 50], ['World 3', 70], ['World 4', 100]];
+  OM.calc.veinIncome = function (p) {
+    const ores = n(p.oresPerFloor, 10), rate = n(p.spawnRate), research = p.research ? 2 : 1;
+    // Average yield multiplier from golden (with rainbow nested inside golden) and gleaming.
+    const goldenMult = n(p.goldMult, 1) * avgMult(n(p.rainbowChance), n(p.rainbowMult, 1));
+    const avg = avgMult(n(p.goldChance), goldenMult) * avgMult(n(p.gleamChance), n(p.gleamMult, 1));
+    // Vein bomb: chance to turn all veins golden, so golden chance rises to gc + (1-gc)*bomb.
+    const goldWithBomb = Math.min(100, n(p.goldChance) + (1 - clamp01(n(p.goldChance) / 100)) * n(p.bombChance));
+    const avgBomb = avgMult(goldWithBomb, goldenMult) * avgMult(n(p.gleamChance), n(p.gleamMult, 1));
+    const clearsPerHour = n(p.clearsPerMin, 48) * 60;
+    const rows = OM.calc.veinRarities.map(([name, rarity]) => {
+      const veins = Math.min(rate / rarity * research, ores);
+      const veinsBomb = veins + (1 - veins / ores) * (n(p.bombChance) / 100) * ores; // bomb morphs ores into veins
+      const yieldBase = veins * avg, yieldBomb = veinsBomb * avgBomb;
+      return { name, rarity, veins, veinsBomb, yieldBase, yieldBomb, perHour: yieldBase * clearsPerHour, perHourBomb: yieldBomb * clearsPerHour,
+        gain: (yieldBomb - yieldBase) * clearsPerHour, gainPct: yieldBase > 0 ? (yieldBomb / yieldBase - 1) * 100 : 0 };
+    });
+    return { avg, avgBomb, rows };
+  };
+
+  // ---------- Frogger gem rate (Frogger_Gem_Rate_Calculator) ----------
+  // Fuel costs 5 gems. Frogger fires 5..(grade+5) bombs (min capped at 10) chosen from 13 types.
+  OM.calc.frogger = function (p) {
+    const fuelDur = n(p.fuelDurationMult, 1), saveInc = 1 / (1 - clamp01(n(p.fuelSaveChance)));
+    const freeMult = 1 / (1 - clamp01(n(p.freeBombChance)));
+    const a = (2 / 13) * freeMult;                         // battery refill rate per bomb
+    const b = (n(p.d20Charges, 20) * freeMult) / (20 * 13); // d20 refill rate
+    const ch = (1 + 2 * clamp01(n(p.cherryTriple))) * freeMult; // cherry charges per cherry
+    const d = n(p.gemChance) * freeMult;                    // gems per gem bomb
+    const denomA = 1 - a * b - a * ch - a * b * ch, denomB = 1 - a * b;
+    const A = { battery: (a * d + a * b * d) / denomA, d20: (b * d + a * b * d) / denomA, cherry: (a * ch * d + a * b * ch * d) / denomA, gem: d };
+    const B = { battery: (a * d + a * b * d + a * ch * d + a * b * ch * d) / denomB, d20: (b * d + a * b * d + b * ch * d + a * b * ch * d) / denomB, cherry: ch * d, gem: d };
+    const strat = p.cherryOnBattery ? A : B;
+    const perBombGems = strat.battery + strat.d20 + strat.cherry + strat.gem;
+    const timeBetweenFires = Math.max((30 - n(p.level) * 1.5), 0.5) / Math.max(n(p.gameSpeed, 1), 1e-9);
+    const rows = [];
+    const maxGrade = Math.max(n(p.maxGrade, 45), 10);
+    for (let g = 0; g <= maxGrade; g++) {
+      const minB = Math.min(g + 5, 10), maxB = g + 5, avgB = (minB + maxB) / 2;
+      const perType = avgB / 13;
+      const gemsPerFire = perType * perBombGems;
+      const fuelDuration = (180 + g * 9) * fuelDur * saveInc; // seconds of game time per fuel
+      const consume = 5 / fuelDuration;                     // gems per game-second
+      const produce = gemsPerFire / (timeBetweenFires * n(p.gameSpeed, 1));
+      const net = produce - consume;
+      rows.push({ grade: g, avgBombs: avgB, gemsPerFire, firesPerFuel: 5 / gemsPerFire, fuelDuration, netPerHour: net * 3600 * n(p.gameSpeed, 1), grossPerHour: produce * 3600 * n(p.gameSpeed, 1), costPerHour: consume * 3600 * n(p.gameSpeed, 1) });
+    }
+    return { rows, timeBetweenFires, perBombGems };
+  };
+
+  // ---------- Lootfrog rewards (Public_Frogspawn_Calculator) ----------
+  OM.calc.lootfrogRewards = [
+    { name: 'Gems', base: 75, weight: 70, gem: true }, { name: 'Relics', base: 15, weight: 50 }, { name: 'Fuel', base: 22.5, weight: 40 },
+    { name: 'T2 items', base: 6, weight: 8 }, { name: 'Sushi', base: 4, weight: 8 }, { name: 'Blue cow', base: 7, weight: 6 },
+    { name: 'Gems', base: 225, weight: 4, gem: true }, { name: 'Gems', base: 2000, weight: 2, gem: true }, { name: 'Relics', base: 125, weight: 2 },
+    { name: 'Skill points', base: 2, weight: 2 }, { name: 'Sushi', base: 22.5, weight: 2 },
+    { name: 'Lanterns', base: 0.5, weight: 1, caps: [3, 3, 6, 6, 9, 9] }, { name: 'Frogspawn', base: 0.5, weight: 1, caps: [3, 3, 3, 3, 6, 6] }, { name: 'Frogurt', base: 0.5, weight: 1, caps: [3, 3, 3, 3, 3, 3] }
+  ];
+  OM.calc.lootfrogs = function (p) {
+    const loot = n(p.lootMulti, 1), gold = n(p.goldMulti, 1), big = n(p.bigMulti, 1), massive = n(p.massiveMulti, 1), gemM = n(p.gemMulti, 1);
+    const gc = clamp01(n(p.goldChance) / 100), bc = clamp01(n(p.bigChance) / 100), mc = clamp01(n(p.massiveChance) / 100);
+    // Six frog kinds: basic, golden basic, big, golden big, huge, golden huge
+    const kinds = [
+      { mult: loot, chance: (1 - gc) * (1 - bc) }, { mult: loot * gold, chance: gc * (1 - bc) },
+      { mult: loot * big, chance: (1 - gc) * bc * (1 - mc) }, { mult: loot * gold * big, chance: gc * bc * (1 - mc) },
+      { mult: loot * big * massive, chance: (1 - gc) * bc * mc }, { mult: loot * gold * big * massive, chance: gc * bc * mc }
+    ];
+    const totalW = OM.calc.lootfrogRewards.reduce((s, r) => s + r.weight, 0);
+    const spawnMult = (1 + 2 * clamp01(n(p.tripleSpawn) / 100)) * (1 + 9 * clamp01(n(p.tenxSpawn) / 100));
+    const cap = n(p.capacity, 1);
+    const byName = {};
+    OM.calc.lootfrogRewards.forEach(r => {
+      const base = r.base * (r.gem ? gemM : 1);
+      let avg = 0;
+      kinds.forEach((k, i) => { let v = base * k.mult; if (r.caps) v = Math.min(v, r.caps[i]); avg += v * k.chance; });
+      const perFrog = avg * r.weight / totalW;
+      byName[r.name] = (byName[r.name] || 0) + perFrog;
+    });
+    return Object.keys(byName).map(name => ({ name, perFrog: byName[name], perSpawn: byName[name] * spawnMult, perFullSpawn: byName[name] * spawnMult * cap }));
+  };
+
+  // ---------- Card shard time (Misc_Card_Calc) ----------
+  OM.calc.cardShards = function (s, p) {
+    const clears = n(p.clearsPerMin, 48), ores = n(p.oresPerFloor, n(s.ores_per_floor, 10)), gs = n(s.game_speed_multi, 1);
+    const clearsPerHour = gs * clears * 60;
+    // Super stars
+    const ssSpawnPerFc = n(s.star_spawn_rate) / 50 * n(s.super_star_spawn_multi) / 100;
+    const ssPerSpawn = (1 + 0.02 * n(s.super_star_triple_chance)) * (1 + 0.09 * n(s.super_star_10x_chance));
+    const nova = n(s.super_star_supernova_chance) / 100, giant = n(s.super_star_supergiant_chance) / 100;
+    const all = n(s.all_star_multi, 1);
+    const novaGiantMult = all * (1 - nova) * (1 - giant) + n(s.super_star_supernova_multi, 1) * all * nova * (1 - giant)
+      + n(s.super_star_supergiant_multi, 1) * all * (1 - nova) * giant + n(s.super_star_supernova_multi, 1) * n(s.super_star_supergiant_multi, 1) * all * nova * giant;
+    const radiant = 1 + (n(s.super_star_radiant_multi, 1) - 1) * n(s.super_star_radiant_chance);
+    const ssPerHour = ssSpawnPerFc * ssPerSpawn * novaGiantMult * radiant * clearsPerHour;
+    // Novagiant combos (regular stars + super stars)
+    const starSpawnPerFc = n(s.star_spawn_rate) / 50;
+    const starsPerSpawn = (1 + n(s.star_double_spawn_chance) * 0.01) * (1 + 0.02 * n(s.star_triple_spawn_chance));
+    const ngStar = starsPerSpawn * n(s.star_supernova_chance) * n(s.star_supergiant_chance) * starSpawnPerFc * 1e-4;
+    const ngSS = ssSpawnPerFc * ssPerSpawn * nova * giant;
+    const ngPerHour = (ngStar + ngSS) * clearsPerHour;
+    // Lootbugs
+    const lbSpawns = 3 * gs * n(s.lootbug_spawn_rate);
+    const lbPerHour = lbSpawns * (1 + 0.02 * n(s.lootbug_triple_chance));
+    const glbPerHour = lbPerHour * n(s.lootbug_golden_chance) * 0.01;
+    // Freebies and stonks
+    const freebies = (3600 / Math.max(n(s.freebie_cooldown_seconds, 300), 1) * gs) / (1 - clamp01(n(s.freebie_refresh_chance) * 0.01));
+    const stonks = freebies * (1 - Math.pow(1 - clamp01(n(s.stonks_chance) * 0.01), 3));
+    const sStonks = stonks * n(s.super_stonks_chance) * 0.01, uStonks = sStonks * n(s.ultra_stonks_chance) * 0.01;
+    // Ores, portals, veins
+    const oresPerHour = ores * clearsPerHour;
+    const portals = n(s.void_portal_chance) * oresPerHour * 0.01, gPortals = portals * n(s.golden_void_portal_chance) * 0.01, rPortals = gPortals * n(s.rainbow_void_portal_chance) * 0.01;
+    const gOres = oresPerHour * n(s.golden_ore_chance) * 0.01;
+    const bombVein = 0.1 + 0.001 * n(s.bomb_workshop_cap_increase);
+    const stoneRate = 1 - (1 - n(s.vein_spawn_rate_multi) * 2 / (15 * ores)) * (1 - bombVein);
+    const goldRate = 1 - (1 - stoneRate * n(s.golden_vein_chance) * 0.01) * (1 - bombVein);
+    const veins = stoneRate * oresPerHour, gVeins = veins * goldRate, rVeins = gVeins * n(s.rainbow_vein_chance) * 0.01, glVeins = veins * n(s.gleaming_vein_chance) * 0.01;
+    const cards = [
+      ['Super star', 5e9, ssPerHour], ['Novagiant combo', 1.5e6, ngPerHour], ['Lootbug', 1e4, lbPerHour], ['Golden lootbug', 5e4, glbPerHour],
+      ['Freebie', 1e4, freebies], ['Stonks', 2500, stonks], ['Super stonks', 100, sStonks], ['Ultra stonks', 3, uStonks],
+      ['Void portal', 5e6, portals], ['Gold void portal', 2e6, gPortals], ['Rainbow void portal', 1e6, rPortals],
+      ['World 1', 1.5e6, clearsPerHour], ['World 2', 3e6, clearsPerHour], ['World 3', 4.5e6, clearsPerHour], ['World 4', 4.5e6, clearsPerHour],
+      ['Golden ore', 1.5e7, gOres], ['Golden vein', 5e6, gVeins], ['Rainbow vein', 5e6, rVeins], ['Gleaming vein', 5e6, glVeins]
+    ];
+    return cards.map(([name, need, perHour]) => ({ name, need, perHour, hours: perHour > 0 ? need / perHour : Infinity }));
+  };
+})(window.OM);
+
+// Best floor to farm (ores and veins). Ported from IOM Best Floor To Farm V3.3.4.
+// Data (ore floors, vein zones, speed and cap tables) lives in data/floors.json.
+(function (OM) {
+  const n = (v, d) => (typeof v === 'number' && isFinite(v)) ? v : (d === undefined ? 0 : d);
+  const c01 = c => Math.min(1, Math.max(0, c));
+  const FLOORS = 132, FLOORS_PER_HOUR = 2880; // 48 clears a minute at 1x game speed
+  const inRange = (f, r) => f >= r[0] && f <= r[1];
+
+  OM.calc.floors = {};
+
+  // World-4 speed modifier from quests done (Best Ore Q63).
+  OM.calc.floors.w4Speed = function (quests) {
+    for (const [q, v] of OM.data.floors.w4SpeedByQuests) if (quests >= q) return v;
+    return 0.8;
+  };
+
+  // Per-floor game-speed factor relative to base speed.
+  OM.calc.floors.speedFactor = function (f, p) {
+    const S = OM.data.floors.speedFloors;
+    let m = 1;
+    for (const r of S.ranges) if (inRange(f, r)) m *= r[2];
+    if (inRange(f, S.world3) && !p.w3Fix) m *= S.world3[2];
+    if (f >= S.world4Start) m *= (1 - n(p.w4Speed, 0));
+    return m;
+  };
+
+  // The export reports game speed as seen on the current floor; undo that floor's modifier.
+  OM.calc.floors.baseSpeed = function (stats, p) {
+    const gs = n(stats.game_speed_multi, 1), cur = n(stats.current_floor, 1);
+    const S = OM.data.floors.speedFloors;
+    if (inRange(cur, S.world3) && !p.w3Fix) return gs / S.world3[2];
+    if (cur >= S.world4Start) return gs / Math.max(1 - n(p.w4Speed, 0), 0.05);
+    return gs;
+  };
+
+  // Inputs shared by both models, prefilled from a snapshot.
+  OM.calc.floors.inputs = function (s) {
+    const notices = s.fishing_notices_array || [];
+    const quests = n(s.world_4_quest_progress);
+    return {
+      oresPerScreen: n(s.ores_per_screen, 10), oreIncome: n(s.ore_income_multi, 1),
+      gFloorC: c01(n(s.golden_floor_chance) / 100), gFloorM: n(s.golden_floor_multi, 1),
+      rFloorC: c01(n(s.rainbow_floor_chance) / 100), rFloorM: n(s.rainbow_floor_multi, 1),
+      gaFloorC: c01(n(s.galactic_floor_chance) / 100), gaFloorM: n(s.galactic_floor_multi, 1),
+      pFloorC: c01(n(s.prismatic_floor_chance) / 100), pFloorM: n(s.prismatic_floor_multi, 1),
+      gOreC: c01(n(s.golden_ore_chance) / 100), gOreM: n(s.golden_ore_multi, 1),
+      rOreC: c01(n(s.rainbow_ore_chance) / 100), rOreM: n(s.rainbow_ore_multi, 1),
+      voidC: c01(n(s.void_portal_chance) / 100), voidM: n(s.void_portal_multi, 0), voidBase: n(s.void_portal_base_multi, 1),
+      gVoidC: c01(n(s.golden_void_portal_chance) / 100), gVoidM: n(s.golden_void_portal_multi, 1),
+      rVoidC: c01(n(s.rainbow_void_portal_chance) / 100), rVoidM: n(s.rainbow_void_portal_multi, 1),
+      gaVoidC: c01(n(s.galactic_void_portal_chance) / 100), gaVoidM: n(s.galactic_void_portal_multi, 1),
+      w3Fix: notices[14] === 1, w4Speed: OM.calc.floors.w4Speed(quests), gameSpeed: 1,
+      veinSpawn: n(s.vein_spawn_rate_multi), veinIncome: n(s.vein_income_multi, 1),
+      gVeinC: c01(n(s.golden_vein_chance) / 100), gVeinM: n(s.golden_vein_multi, 1),
+      rVeinC: c01(n(s.rainbow_vein_chance) / 100), rVeinM: n(s.rainbow_vein_multi, 1),
+      glVeinC: c01(n(s.gleaming_vein_chance) / 100), glVeinM: n(s.gleaming_vein_multi, 1),
+      research: true, morphChance: 0, morphGold: 0
+    };
+  };
+
+  // Expected floor-tier multiplier on a floor (Best Ore X/Z/AB/AD/AF/AH/AJ columns).
+  function floorMult(f, p) {
+    const G = OM.data.floors.goldenFloorCaps;
+    let g = p.gFloorC, r = p.rFloorC, ga = p.gaFloorC, pr = p.pFloorC, tierScale = 1, oreScale = 1;
+    for (const c of G.caps) if (inRange(f, c)) g = Math.min(g, c[2]);
+    for (const c of G.rainbowTierScale) if (inRange(f, c)) tierScale = c[2];
+    for (const c of G.prismaticMinus) if (inRange(f, c)) pr = Math.max(pr - c[2], 0);
+    for (const c of G.halfGoldenOre) if (inRange(f, c)) oreScale = 0.5;
+    const W4 = p.oreIncome, W5 = p.gFloorM * W4, W6 = W5 * p.rFloorM, W7 = W6 * p.gaFloorM, W8 = W7 * p.pFloorM;
+    const W9 = p.rFloorM * W4, W10 = W9 * p.gaFloorM, W11 = W10 * p.pFloorM;
+    const tiers = [
+      [(1 - g) * (1 - r), W4], [g * (1 - r), W5],
+      [g * r * (1 - ga), W6], [g * r * ga * (1 - pr), W7], [g * r * ga * pr, W8],
+      [(1 - g) * r * (1 - ga), W9], [(1 - g) * r * ga * (1 - pr), W10], [(1 - g) * r * ga * pr, W11]
+    ];
+    let sum = 0;
+    tiers.forEach((t, i) => { sum += t[0] * t[1] * (i >= 2 ? tierScale : 1); });
+    // Expected golden/rainbow ore multiplier (W27/W28, halved on some floors).
+    const gm = p.gOreM * oreScale;
+    const oreMult = Math.max((1 - p.gOreC) + p.gOreC * gm, (1 - p.gOreC) + p.gOreC * gm * ((1 - p.rOreC) + p.rOreC * p.rOreM));
+    return sum * oreMult;
+  }
+
+  // Void portal outcome table: chance and multiplier per portal kind, scaled for reduced floors.
+  function voidTable(f, p) {
+    const V = OM.data.floors.speedFloors.voidReduced;
+    let c = p.voidC; if (V.some(r => inRange(f, r))) c *= 0.4;
+    const m1 = p.voidM * p.voidBase, m2 = m1 * p.gVoidM, m3 = m2 * p.rVoidM, m4 = m3 * p.gaVoidM;
+    const g = p.gVoidC, r = p.rVoidC, ga = p.gaVoidC;
+    return { none: 1 - c, kinds: [[c * (1 - g), m1], [c * g * (1 - r), m2], [c * g * r * (1 - ga), m3], [c * g * r * ga, m4]], chance: c,
+      avgMult: c > 0 ? (c * (1 - g) * m1 + c * g * (1 - r) * m2 + c * g * r * (1 - ga) * m3 + c * g * r * ga * m4) / c : 0 };
+  }
+
+  // Ores per hour of one ore on every floor, with and without void portals.
+  OM.calc.floors.ore = function (oreName, p) {
+    const ores = OM.data.floors.ores;
+    const idx = ores.findIndex(o => o.name === oreName);
+    if (idx < 0) return null;
+    const ore = ores[idx];
+    const rows = [];
+    let perfect = 0;
+    for (let f = 1; f <= FLOORS; f++) {
+      const fm = floorMult(f, p) * FLOORS_PER_HOUR * p.gameSpeed * OM.calc.floors.speedFactor(f, p) * p.oresPerScreen;
+      const frac = ore.floors[f] || 0;
+      const vt = voidTable(f, p);
+      const portalValue = vt.kinds.reduce((a, k) => a + k[0] * k[1], 0);
+      // Portals from any ore Y on this floor give a uniform pick of ores 1..Y, so X gets 1/Y of Y's portals when X <= Y.
+      let voidShare = frac * vt.none;
+      ores.forEach((y, j) => { const fy = y.floors[f]; if (fy && j >= idx) voidShare += fy * portalValue / (j + 1); });
+      rows.push({ floor: f, base: frac * fm, void: voidShare * fm, present: frac > 0 });
+      perfect = Math.max(perfect, floorMult(f, p) * FLOORS_PER_HOUR * p.gameSpeed * p.oresPerScreen);
+    }
+    const bestBase = rows.slice().sort((a, b) => b.base - a.base);
+    const bestVoid = rows.slice().sort((a, b) => b.void - a.void);
+    return { ore, rows, perfect, bestBase, bestVoid, useVoid: bestVoid[0].void > bestBase[0].base };
+  };
+
+  // Veins per hour for one vein type on every floor (Best Veins Y..AF columns).
+  OM.calc.floors.vein = function (veinName, p) {
+    const D = OM.data.floors, ores = D.ores;
+    const v = D.veins.find(x => x.name === veinName);
+    if (!v) return null;
+    const veinsPerScreen = p.morphChance * p.oresPerScreen + (1 - p.morphChance) * Math.min(p.oresPerScreen, p.veinSpawn * (p.research ? 2 : 1) / v.rarity);
+    const g = p.gVeinC, r = p.rVeinC, gl = p.glVeinC;
+    const variant = (p.morphGold * p.gVeinM * (1 + g * r * (p.rVeinM - 1)) + (1 - p.morphGold) * ((1 - g) + g * (1 - r) * p.gVeinM + g * r * p.gVeinM * p.rVeinM)) * ((1 - gl) + gl * p.glVeinM);
+    // Portal weight per ore: portals from ore i (1-based) give ores 1..i uniformly; count how many fall in the vein's ore range.
+    const weight = i => i < v.firstOre ? 0 : (Math.min(i, v.lastOre) - v.firstOre + 1) / i;
+    const rows = [];
+    for (let f = 1; f <= FLOORS; f++) {
+      const screens = FLOORS_PER_HOUR * p.gameSpeed * OM.calc.floors.speedFactor(f, p);
+      const inZone = f >= v.firstFloor && f <= v.lastFloor ? 1 : 0;
+      let share = 0; ores.forEach((o, i) => { const fr = o.floors[f]; if (fr) share += fr * weight(i + 1); });
+      const vt = voidTable(f, p);
+      const node = (1 - vt.chance) * inZone + vt.chance * share * vt.avgMult;
+      const nodeNoVoid = inZone;
+      rows.push({ floor: f, void: veinsPerScreen * node * screens * p.veinIncome * variant, base: veinsPerScreen * nodeNoVoid * screens * p.veinIncome * variant, present: inZone === 1 });
+    }
+    const perfectBase = veinsPerScreen * FLOORS_PER_HOUR * p.gameSpeed * p.veinIncome * variant;
+    const bestBase = rows.slice().sort((a, b) => b.base - a.base), bestVoid = rows.slice().sort((a, b) => b.void - a.void);
+    return { vein: v, rows, veinsPerScreen, variant, perfect: perfectBase, bestBase, bestVoid, useVoid: bestVoid[0].void >= bestBase[0].base };
+  };
+})(window.OM);
+
 // Each view renders into its section element from the current snapshot.
 (function (OM) {
   const el = OM.el, fmt = OM.fmt, pct = OM.pct, dur = OM.dur;
@@ -818,9 +1183,9 @@ window.OM = window.OM || {};
       el('p', {}, 'A planning tool for Idle Obelisk Miner. Paste your EXPORTSTATS JSON to see where your stats stand, how fast they are growing, and how long things will take.'),
       el('p', {}, 'Everything stays in your browser. There is no server and no account. Use "Back up all snapshots" on the Import page to keep a copy.'),
       el('h3', {}, 'Formula sources'),
-      el('p', {}, 'Bomb base cooldowns and the recharge formula come from the community Obelisk Total Resources Calculator. The full extracted formula reference for all community calculators lives in the repository under docs/formulas.'),
+      el('p', {}, 'Bomb base cooldowns and the recharge formula come from the community Obelisk Total Resources Calculator. Contracts, Transmuter vs BoP, Veins, Frogger, Lootfrogs and Card shards are ports of the community calculators of the same names, checked against their outputs. The full extracted formula reference lives in the repository under docs/formulas.'),
       el('h3', {}, 'Known assumptions'),
-      el('p', {}, 'Crit tiers are modelled as nested rolls (only a crit can super crit, and so on). Chances above 100% are flagged as wasted unless the game is known to convert overflow. Buff timer arrays are shown by index because the export does not name the slots.'),
+      el('p', {}, 'Crit tiers are modelled as nested rolls (only a crit can super crit, and so on). Chances above 100% are flagged as wasted unless the game is known to convert overflow. Buff timer arrays are shown by index because the export does not name the slots. In the vein calculator the Veinmorpher effect is applied as a real chance to turn veins golden; the source sheet used a placeholder there. In Best floor, the reduced void chance on floors 103-106 and 129-132 is applied to the void portal chance directly rather than through the source sheet\'s ratio column, and per-floor speed slowdowns are applied once.'),
       el('p', { class: 'small muted' }, 'Idle Obelisk Miner is made by Checkbox Entertainment. This tool is a fan project and is not affiliated with them.')
     ]));
   };
@@ -830,6 +1195,300 @@ window.OM = window.OM || {};
       'No snapshot selected. ', el('a', { href: '#import' }, 'Paste an export'), ' to get started.'
     ]));
   }
+})(window.OM);
+
+// Views for the ported calculators. Inputs are prefilled from the snapshot and editable.
+(function (OM) {
+  const el = OM.el, fmt = OM.fmt, pct = OM.pct, dur = OM.dur;
+
+  // Small helper: a labelled numeric input bound to a state object.
+  function num(state, key, label, opts) {
+    opts = opts || {};
+    const i = el('input', { type: 'number', value: state[key], step: opts.step || 'any', min: opts.min });
+    i.addEventListener('input', () => { state[key] = Number(i.value); opts.on && opts.on(); });
+    return el('label', {}, [label, i]);
+  }
+  function chk(state, key, label, on) {
+    const i = el('input', { type: 'checkbox' }); i.checked = !!state[key];
+    i.addEventListener('change', () => { state[key] = i.checked; on && on(); });
+    return el('label', {}, el('span', {}, [i, ' ' + label]));
+  }
+  function needSnap() {
+    return el('div', { class: 'panel' }, el('div', { class: 'empty' }, ['No snapshot selected. ', el('a', { href: '#import' }, 'Paste an export'), ' first.']));
+  }
+  const g = (s, k, d) => (typeof s[k] === 'number' ? s[k] : d);
+
+  // ---------- Contracts ----------
+  OM.views.contracts = function (root, snap) {
+    root.innerHTML = '';
+    if (!snap) { root.appendChild(needSnap()); return; }
+    const s = snap.stats;
+    root.appendChild(el('h1', {}, 'Contracts'));
+    root.appendChild(el('p', { class: 'muted' }, 'Expected points per contract, how many contracts each upgrade still needs, and what your pickaxe damage looks like with more contracts. Ported from the Contract & Damage Calc 2.0.'));
+
+    const st = { points: g(s, 'contract_points_rewarded', 1), x2: g(s, 'contract_double_points_chance', 0), x3: g(s, 'contract_triple_points_chance', 0),
+      x5: g(s, 'contract_5x_points_chance', 0), x10: g(s, 'contract_10x_points_chance', 0), costMult: g(s, 'contract_upgrade_cost_reduction', 1),
+      done: 0, earned: 0, currentDamage: g(s, 'pickaxe_damage', 0), world3: true, world: 0 };
+    const out1 = el('div', { class: 'panel accent' }), out2 = el('div'), out3 = el('div', { class: 'panel' });
+
+    function render() {
+      const pts = OM.calc.contractPoints(st);
+      out1.innerHTML = '';
+      out1.appendChild(el('h2', {}, `${fmt(pts.mean)} points per contract on average`));
+      out1.appendChild(el('p', {}, `Base ${fmt(st.points)} × ${fmt(pts.multiplier)} from the multiplier chances. Standard deviation ${fmt(pts.sd)} per contract.`));
+      if (st.done > 0 && st.earned > 0) {
+        const expected = pts.mean * st.done, z = (st.earned - expected) / (Math.sqrt(st.done) * pts.sd);
+        const pc = OM.calc.normCdf(z);
+        out1.appendChild(el('p', {}, `Over ${fmt(st.done, 0)} contracts you'd expect about ${fmt(expected, 0)} points; you earned ${fmt(st.earned, 0)}, which is the ${(pc * 100).toFixed(0)}th percentile. ` + (pc > 0.5 ? 'You ran above average, so a prestige now is fine.' : 'You ran below average; more contracts before prestige would likely pull you toward the mean.')));
+      }
+
+      const rows = OM.calc.contractTable(s, { costMult: st.costMult }).filter(r => !st.world || r.world === st.world);
+      const totalToMax = rows.reduce((a, r) => a + r.toMax, 0);
+      out2.innerHTML = '';
+      out2.appendChild(el('div', { class: 'panel' }, [
+        el('h2', {}, `${fmt(totalToMax, 0)} points to max ${st.world ? 'world ' + st.world : 'everything'} (about ${fmt(totalToMax / pts.mean, 0)} contracts)`),
+        OM.table(['World', 'Contract', 'Type', 'Level', 'Max', 'Next level', 'To max', 'Contracts to max'],
+          rows.map(r => ({ cells: [r.world, r.name, OM.data.contracts.tags[r.tag], r.cur, r.max, r.next ? fmt(r.next, 0) : '–', r.toMax ? fmt(r.toMax, 0) : el('span', { class: 'ok' }, 'maxed'), r.toMax ? fmt(r.toMax / pts.mean, 0) : ''], hl: r.cur < r.max && r.next > 0 && r.next === Math.min(...rows.filter(x => x.next > 0).map(x => x.next)) })),
+          { num: [0, 3, 4, 5, 6, 7] }),
+        el('p', { class: 'small muted', style: 'margin-top:.5rem' }, 'Highlighted: the cheapest next level. Costs use your contract cost multiplier; adjust it above if the game shows different numbers. The export lists 34 contracts but the source sheet documents 33, so the last one is not shown.')
+      ]));
+
+      const lv = s.contracts_array || [];
+      const dmg = OM.calc.contractDamage({ contractsComplete: st.done, cap: g(s, 'contract_cap_increase', 0), pdPerContract: lv[0], pickaxeDamage: lv[6], pbDamage: lv[23], currentDamage: st.currentDamage, world3Statue: st.world3 });
+      out3.innerHTML = '';
+      out3.appendChild(el('h2', {}, 'Pickaxe damage from contracts'));
+      if (!st.done) out3.appendChild(el('p', { class: 'muted' }, 'Enter your completed contract count above to see this.'));
+      else {
+        out3.appendChild(el('p', {}, `Without any contract bonuses your damage would be about ${fmt(dmg.base)}. With every contract-related upgrade maxed at your current count it would be about ${fmt(dmg.potential)}.`));
+        out3.appendChild(OM.table(['More contracts', 'Pickaxe damage', 'Gain'], [10, 100, 250, 500, 1000, 5000, 12000].map(m => [fmt(m, 0), fmt(dmg.after(m)), '+' + ((dmg.after(m) / dmg.potential - 1) * 100).toFixed(1) + '%']), { num: [0, 1, 2] }));
+        out3.appendChild(el('p', { class: 'small muted', style: 'margin-top:.5rem' }, 'Assumes the damage-related contracts are maxed (the source sheet models the potential, not the current levels).'));
+      }
+    }
+    const worldSel = el('select'); [[0, 'All worlds'], [1, 'World 1'], [2, 'World 2'], [3, 'World 3'], [4, 'World 4']].forEach(([v, t]) => worldSel.appendChild(el('option', { value: v }, t)));
+    worldSel.addEventListener('change', () => { st.world = Number(worldSel.value); render(); });
+    root.appendChild(el('div', { class: 'panel' }, el('div', { class: 'row' }, [
+      num(st, 'points', 'Points per contract', { on: render }), num(st, 'x2', '2x chance %', { on: render }), num(st, 'x3', '3x chance %', { on: render }),
+      num(st, 'x5', '5x chance %', { on: render }), num(st, 'x10', '10x chance %', { on: render }), num(st, 'costMult', 'Cost multiplier', { on: render, step: '0.0001' }),
+      num(st, 'done', 'Contracts completed', { on: render, step: '1' }), num(st, 'earned', 'Points earned this run', { on: render, step: '1' }),
+      num(st, 'currentDamage', 'Current pickaxe damage', { on: render }), chk(st, 'world3', 'World 3 statue built', render), el('label', {}, ['Show', worldSel])
+    ])));
+    root.appendChild(out1); root.appendChild(out2); root.appendChild(out3);
+    render();
+  };
+
+  // ---------- Crafting: Transmuter vs Bomb of Plenty ----------
+  OM.views.crafting = function (root, snap) {
+    root.innerHTML = '';
+    if (!snap) { root.appendChild(needSnap()); return; }
+    const s = snap.stats;
+    root.appendChild(el('h1', {}, 'Transmuter vs Bomb of Plenty'));
+    root.appendChild(el('p', { class: 'muted' }, 'Bars per ore from each bomb, using your craft multiplier chances. Ported from Trans_vs_Bop_effectiveness.'));
+    const st = { free: g(s, 'free_craft_chance', 0), x2: g(s, 'double_craft_chance', 0), x3: g(s, 'triple_craft_chance', 0), x5: g(s, 'craft_5x_chance', 0), x10: g(s, 'craft_10x_chance', 0),
+      x20: g(s, 'craft_20x_chance', 0), x100: g(s, 'craft_100x_chance', 0), barCost: 67, bopMult: g(s, 'bomb_of_plenty_multi', 1), transMult: g(s, 'bomb_transmuter_multi', 0), transBopChance: g(s, 'bomb_trans_apply_bop_chance', 0) };
+    const out = el('div', { class: 'panel accent' });
+    function render() {
+      const r = OM.calc.transVsBop(st);
+      out.innerHTML = '';
+      out.appendChild(el('h2', {}, r.transWins ? `Transmuter wins: ${fmt(r.transBars)} vs ${fmt(r.bopBars)} bars per ore` : `Bomb of Plenty wins: ${fmt(r.bopBars)} vs ${fmt(r.transBars)} bars per ore`));
+      out.appendChild(el('p', {}, `Average craft multiplier ${fmt(r.craftMult)} (free craft ${fmt(r.freeMult)}x × ` + r.parts.map(p => `${fmt(p.avg)}x from ${p.mult}x`).join(' × ') + `). Plain crafting yields ${fmt(r.barsPerOre)} bars per ore at ${st.barCost} ore per bar.`));
+      out.appendChild(el('p', {}, `Transmuter applies a Bomb of Plenty stack ${pct(st.transBopChance, 0)} of the time, worth ${fmt(r.avgTransBop)}x on average. Transmuter is the better choice whenever a bar costs more than about ${fmt(r.breakEvenCost)} ore.`));
+    }
+    root.appendChild(el('div', { class: 'panel' }, el('div', { class: 'row' }, [
+      num(st, 'free', 'Free craft %', { on: render }), num(st, 'x2', '2x %', { on: render }), num(st, 'x3', '3x %', { on: render }), num(st, 'x5', '5x %', { on: render }),
+      num(st, 'x10', '10x %', { on: render }), num(st, 'x20', '20x %', { on: render }), num(st, 'x100', '100x %', { on: render }),
+      num(st, 'barCost', 'Ore per bar (this ore)', { on: render }), num(st, 'bopMult', 'Bomb of Plenty multiplier', { on: render }), num(st, 'transMult', 'Transmuter multiplier', { on: render }), num(st, 'transBopChance', 'Transmuter applies BoP %', { on: render })
+    ])));
+    root.appendChild(out);
+    render();
+  };
+
+  // ---------- Veins ----------
+  OM.views.veins = function (root, snap) {
+    root.innerHTML = '';
+    if (!snap) { root.appendChild(needSnap()); return; }
+    const s = snap.stats;
+    root.appendChild(el('h1', {}, 'Vein income'));
+    root.appendChild(el('p', { class: 'muted' }, 'Veins per floor and per hour by vein rarity, with and without the Veinmorpher bomb. Ported from vein_income.'));
+    const st = { oresPerFloor: g(s, 'ores_per_floor', 10), spawnRate: g(s, 'vein_spawn_rate_multi', 0), research: true, goldChance: g(s, 'golden_vein_chance', 0), goldMult: g(s, 'golden_vein_multi', 1),
+      rainbowChance: g(s, 'rainbow_vein_chance', 0), rainbowMult: g(s, 'rainbow_vein_multi', 1), gleamChance: g(s, 'gleaming_vein_chance', 0), gleamMult: g(s, 'gleaming_vein_multi', 1), bombChance: 10, clearsPerMin: 48 };
+    const out = el('div');
+    function render() {
+      const r = OM.calc.veinIncome(st);
+      out.innerHTML = '';
+      out.appendChild(el('div', { class: 'panel accent' }, [
+        el('h2', {}, `Average vein worth ${fmt(r.avg)}x a plain vein, ${fmt(r.avgBomb)}x with Veinmorpher`),
+        OM.table(['Vein', 'Rarity', 'Veins / floor', 'With bomb', 'Yield / floor', 'With bomb', 'Veins / hour', 'With bomb', 'Bomb gain'],
+          r.rows.map(v => [v.name, v.rarity, fmt(v.veins), fmt(v.veinsBomb), fmt(v.yieldBase), fmt(v.yieldBomb), fmt(v.perHour), fmt(v.perHourBomb), '+' + v.gainPct.toFixed(0) + '%']), { num: [1, 2, 3, 4, 5, 6, 7, 8] }),
+        el('p', { class: 'small muted', style: 'margin-top:.5rem' }, 'Veins per floor is capped at ores per floor. Yield counts golden, rainbow and gleaming veins as multiples of a plain vein. Per hour assumes your clears-per-minute rate.')
+      ]));
+    }
+    root.appendChild(el('div', { class: 'panel' }, el('div', { class: 'row' }, [
+      num(st, 'oresPerFloor', 'Ores per floor', { on: render }), num(st, 'spawnRate', 'Vein spawn rate', { on: render }), chk(st, 'research', '2x vein research', render),
+      num(st, 'goldChance', 'Golden vein %', { on: render }), num(st, 'goldMult', 'Golden multiplier', { on: render }), num(st, 'rainbowChance', 'Rainbow vein %', { on: render }), num(st, 'rainbowMult', 'Rainbow multiplier', { on: render }),
+      num(st, 'gleamChance', 'Gleaming vein %', { on: render }), num(st, 'gleamMult', 'Gleaming multiplier', { on: render }), num(st, 'bombChance', 'Veinmorpher effect %', { on: render }), num(st, 'clearsPerMin', 'Floor clears / min', { on: render })
+    ])));
+    root.appendChild(out);
+    render();
+  };
+
+  // ---------- Frogger ----------
+  OM.views.frogger = function (root, snap) {
+    root.innerHTML = '';
+    if (!snap) { root.appendChild(needSnap()); return; }
+    const s = snap.stats;
+    root.appendChild(el('h1', {}, 'Frogger gem rate'));
+    root.appendChild(el('p', { class: 'muted' }, 'Net gems per hour from a fuelled Frogger suit at each grade, after paying 5 gems per fuel. Ported from the Frogger Gem Rate Calculator.'));
+    const myGrade = g(s, 'frogger_fuel_grade', 0);
+    const st = { fuelDurationMult: g(s, 'coal_fuel_duration_multi', 1), fuelSaveChance: g(s, 'coal_fuel_save_chance', 0) / 100, freeBombChance: g(s, 'bomb_free_chance', 0) / 100, d20Charges: 20,
+      cherryTriple: g(s, 'bomb_cherry3x_chance', 0) / 100, gemChance: 0.03, cherryOnBattery: true, level: 15, gameSpeed: g(s, 'game_speed_multi', 1), maxGrade: Math.max(45, myGrade + 10) };
+    const out = el('div');
+    function render() {
+      const r = OM.calc.frogger(st);
+      const mine = r.rows[Math.min(myGrade, r.rows.length - 1)];
+      const breakEven = r.rows.find(x => x.netPerHour > 0);
+      out.innerHTML = '';
+      out.appendChild(el('div', { class: 'panel accent' }, [
+        el('h2', {}, mine ? `At grade ${myGrade}: ${mine.netPerHour >= 0 ? '+' : ''}${fmt(mine.netPerHour)} gems per hour net` : 'Frogger grade not in export'),
+        el('p', {}, `Frogger fires every ${r.timeBetweenFires.toFixed(2)} s. ` + (breakEven ? `Frogger pays for its own fuel from grade ${breakEven.grade} up.` : 'Frogger never pays for its fuel with these inputs.')),
+        OM.table(['Grade', 'Avg bombs / fire', 'Gems / fire', 'Fires per fuel', 'Fuel lasts', 'Gems / hour', 'Fuel cost / hour', 'Net / hour'],
+          r.rows.filter(x => x.grade % 5 === 0 || x.grade === myGrade || Math.abs(x.grade - myGrade) <= 2).map(x => ({ cells: [x.grade, fmt(x.avgBombs), fmt(x.gemsPerFire, 3), fmt(x.firesPerFuel), dur(x.fuelDuration), fmt(x.grossPerHour), fmt(x.costPerHour), el('span', { class: x.netPerHour >= 0 ? 'ok' : 'bad' }, fmt(x.netPerHour))], hl: x.grade === myGrade })), { num: [0, 1, 2, 3, 4, 5, 6, 7] })
+      ]));
+    }
+    root.appendChild(el('div', { class: 'panel' }, el('div', { class: 'row' }, [
+      num(st, 'fuelDurationMult', 'Fuel duration multiplier', { on: render }), num(st, 'fuelSaveChance', 'Fuel save chance (0-1)', { on: render }), num(st, 'freeBombChance', 'Free bomb chance (0-1)', { on: render }),
+      num(st, 'd20Charges', 'D20 charges refilled', { on: render }), num(st, 'cherryTriple', 'Cherry triple chance (0-1)', { on: render }), num(st, 'gemChance', 'Gem bomb gem chance (0-1)', { on: render, step: '0.001' }),
+      num(st, 'level', 'Frogger level', { on: render, step: '1' }), num(st, 'gameSpeed', 'Game speed', { on: render }), chk(st, 'cherryOnBattery', 'Spend cherry charges on battery bombs', render)
+    ])));
+    root.appendChild(out);
+    render();
+  };
+
+  // ---------- Lootfrogs ----------
+  OM.views.lootfrogs = function (root, snap) {
+    root.innerHTML = '';
+    if (!snap) { root.appendChild(needSnap()); return; }
+    const s = snap.stats;
+    root.appendChild(el('h1', {}, 'Lootfrog rewards'));
+    root.appendChild(el('p', { class: 'muted' }, 'Average loot per frog, per spawn, and per full-capacity spawn. Ported from the Public Frogspawn Calculator.'));
+    const st = { lootMulti: g(s, 'lootfrog_loot_multi', 1), gemMulti: 1, goldChance: g(s, 'lootfrog_golden_chance', 0), goldMulti: g(s, 'lootfrog_golden_multi', 1), bigChance: g(s, 'lootfrog_big_chance', 0), bigMulti: g(s, 'lootfrog_big_multi', 1),
+      massiveChance: g(s, 'lootfrog_massive_chance', 0), massiveMulti: g(s, 'lootfrog_massive_multi', 1), tripleSpawn: g(s, 'lootfrog_triple_spawn_chance', 0), tenxSpawn: g(s, 'lootfrog_10x_spawn_chance', 0), capacity: g(s, 'lootfrog_capacity', 1) };
+    const out = el('div');
+    function render() {
+      const rows = OM.calc.lootfrogs(st);
+      out.innerHTML = '';
+      out.appendChild(el('div', { class: 'panel accent' }, [
+        el('h2', {}, `${fmt(rows.find(r => r.name === 'Gems').perFullSpawn)} gems per full spawn on average`),
+        OM.table(['Reward', 'Per frog', 'Per spawn', 'Per full spawn'], rows.map(r => [r.name, fmt(r.perFrog, 3), fmt(r.perSpawn, 3), fmt(r.perFullSpawn, 2)]), { num: [1, 2, 3] }),
+        el('p', { class: 'small muted', style: 'margin-top:.5rem' }, 'Lanterns, frogspawn and frogurt are capped per frog kind, as in the source sheet. Set the gem multiplier if you have a lootfrog gem bonus the export does not show.')
+      ]));
+    }
+    root.appendChild(el('div', { class: 'panel' }, el('div', { class: 'row' }, [
+      num(st, 'lootMulti', 'Loot multiplier', { on: render }), num(st, 'gemMulti', 'Gem multiplier', { on: render }), num(st, 'goldChance', 'Golden %', { on: render }), num(st, 'goldMulti', 'Golden multiplier', { on: render }),
+      num(st, 'bigChance', 'Big %', { on: render }), num(st, 'bigMulti', 'Big multiplier', { on: render }), num(st, 'massiveChance', 'Massive %', { on: render }), num(st, 'massiveMulti', 'Massive multiplier', { on: render }),
+      num(st, 'tripleSpawn', 'Triple spawn %', { on: render }), num(st, 'tenxSpawn', '10x spawn %', { on: render }), num(st, 'capacity', 'Capacity', { on: render })
+    ])));
+    root.appendChild(out);
+    render();
+  };
+
+  // ---------- Card shards ----------
+  OM.views.cards = function (root, snap) {
+    root.innerHTML = '';
+    if (!snap) { root.appendChild(needSnap()); return; }
+    const s = snap.stats;
+    root.appendChild(el('h1', {}, 'Card shard time'));
+    root.appendChild(el('p', { class: 'muted' }, 'How long each misc card takes to earn one shard at your current rates. Ported from the Misc Card Calc.'));
+    const st = { clearsPerMin: 48, oresPerFloor: g(s, 'ores_per_floor', 10) };
+    const out = el('div');
+    function render() {
+      const rows = OM.calc.cardShards(s, st).sort((a, b) => a.hours - b.hours);
+      out.innerHTML = '';
+      out.appendChild(el('div', { class: 'panel accent' }, [
+        OM.table(['Card', 'Needed per shard', 'Your rate / hour', 'Time per shard'], rows.map(r => [r.name, fmt(r.need, 0), fmt(r.perHour), isFinite(r.hours) ? dur(r.hours * 3600) : el('span', { class: 'muted' }, 'never')]), { num: [1, 2, 3] }),
+        el('p', { class: 'small muted', style: 'margin-top:.5rem' }, 'Rates use the stats in your export as they are, including whatever drones were equipped when you exported.')
+      ]));
+    }
+    root.appendChild(el('div', { class: 'panel' }, el('div', { class: 'row' }, [num(st, 'clearsPerMin', 'Floor clears / min', { on: render }), num(st, 'oresPerFloor', 'Ores per floor', { on: render })])));
+    root.appendChild(out);
+    render();
+  };
+})(window.OM);
+
+// Best floor to farm view (ores and veins).
+(function (OM) {
+  const el = OM.el, fmt = OM.fmt, pct = OM.pct;
+  function num(state, key, label, opts) {
+    opts = opts || {};
+    const i = el('input', { type: 'number', value: state[key], step: opts.step || 'any', min: opts.min });
+    i.addEventListener('input', () => { state[key] = Number(i.value); opts.on && opts.on(); });
+    return el('label', {}, [label, i]);
+  }
+  function chk(state, key, label, on) {
+    const i = el('input', { type: 'checkbox' }); i.checked = !!state[key];
+    i.addEventListener('change', () => { state[key] = i.checked; on && on(); });
+    return el('label', {}, el('span', {}, [i, ' ' + label]));
+  }
+
+  OM.views.floors = function (root, snap) {
+    root.innerHTML = '';
+    if (!snap) { root.appendChild(el('div', { class: 'panel' }, el('div', { class: 'empty' }, ['No snapshot selected. ', el('a', { href: '#import' }, 'Paste an export'), ' first.']))); return; }
+    const s = snap.stats, D = OM.data.floors;
+    root.appendChild(el('h1', {}, 'Best floor to farm'));
+    root.appendChild(el('p', { class: 'muted' }, 'Expected ores or veins per hour on every floor, with and without void portals. Ported from IOM Best Floor To Farm 3.3.4.'));
+
+    const p = OM.calc.floors.inputs(s);
+    p.gameSpeed = OM.calc.floors.baseSpeed(s, p);
+    const cur = Number(s.current_floor) || 1;
+    const defaultOre = (D.ores.filter(o => o.floors[cur]).sort((a, b) => (b.floors[cur] || 0) - (a.floors[cur] || 0))[0] || D.ores[0]).name;
+    const defaultVein = (D.veins.find(v => cur >= v.firstFloor && cur <= v.lastFloor) || D.veins[0]).name;
+    const st = { mode: 'ore', ore: defaultOre, vein: defaultVein, voidC: p.voidC * 100, voidM: p.voidM, w4Quests: Number(s.world_4_quest_progress) || 0 };
+
+    const modeSel = el('select'); [['ore', 'Ores'], ['vein', 'Veins']].forEach(([v, t]) => modeSel.appendChild(el('option', { value: v }, t)));
+    const oreSel = el('select'); D.ores.forEach(o => oreSel.appendChild(el('option', { value: o.name, selected: o.name === st.ore ? '' : null }, `W${o.world} ${o.name} (floor ${o.firstFloor})`)));
+    const veinSel = el('select'); D.veins.forEach(v => veinSel.appendChild(el('option', { value: v.name, selected: v.name === st.vein ? '' : null }, `${v.name} (floors ${v.firstFloor}-${v.lastFloor})`)));
+    modeSel.addEventListener('change', () => { st.mode = modeSel.value; render(); });
+    oreSel.addEventListener('change', () => { st.ore = oreSel.value; render(); });
+    veinSel.addEventListener('change', () => { st.vein = veinSel.value; render(); });
+    const out = el('div');
+    const voidHint = p.voidC === 0 && Number(s.void_fuel_grade) > 0
+      ? 'Your export shows 0% void portal chance (Void drone not equipped). Enter the chance and multiplier from Stats → Drones with the Void drone equipped and fueled to see the void option.'
+      : 'Void portal chance and multiplier come from your export.';
+
+    function render() {
+      p.voidC = Math.min(1, st.voidC / 100); p.voidM = st.voidM; p.w4Speed = OM.calc.floors.w4Speed(st.w4Quests);
+      out.innerHTML = '';
+      const r = st.mode === 'ore' ? OM.calc.floors.ore(st.ore, p) : OM.calc.floors.vein(st.vein, p);
+      if (!r) return;
+      const unit = st.mode === 'ore' ? 'ores' : 'veins';
+      const best = r.useVoid ? r.bestVoid : r.bestBase, key = r.useVoid ? 'void' : 'base';
+      const top = best.slice(0, 5).filter(x => x[key] > 0);
+      out.appendChild(el('div', { class: 'panel accent' }, [
+        el('h2', {}, `Farm floor ${top[0].floor}${r.useVoid ? ' with the Void drone' : ' without the Void drone'}: about ${fmt(top[0][key])} ${unit} per hour`),
+        el('p', {}, `That is ${pct(top[0][key] / r.perfect * 100, 0)} of a perfect floor. ` + (p.voidC > 0 ? `Best without void: floor ${r.bestBase[0].floor} at ${fmt(r.bestBase[0].base)}/h. Best with void: floor ${r.bestVoid[0].floor} at ${fmt(r.bestVoid[0].void)}/h.` : 'Void portals are at 0%, so only the base option is ranked.')),
+        OM.table(['Rank', 'Floor', unit + ' / hour', 'vs. perfect', 'vs. next'], top.map((x, i) => [i + 1, x.floor, fmt(x[key]), pct(x[key] / r.perfect * 100, 0), i + 1 < top.length && top[i + 1][key] > 0 ? '+' + pct((x[key] / top[i + 1][key] - 1) * 100, 0) : '']), { num: [0, 1, 2, 3, 4] })
+      ]));
+      // Detail table around the item's own floors
+      const own = r.rows.filter(x => x.present).map(x => x.floor);
+      const lo = Math.max(1, Math.min(...own) - 2), hi = Math.min(132, Math.max(...own) + 6);
+      const detail = r.rows.filter(x => (x.floor >= lo && x.floor <= hi) || x.floor === cur || best.slice(0, 5).some(b => b.floor === x.floor)).sort((a, b) => a.floor - b.floor);
+      out.appendChild(el('div', { class: 'panel' }, [
+        el('h2', {}, 'Floor detail'),
+        OM.table(['Floor', 'Spawns here', unit + '/h no void', unit + '/h with void', 'Speed factor'], detail.map(x => ({ cells: [x.floor, x.present ? 'yes' : el('span', { class: 'muted' }, 'portals only'), fmt(x.base), fmt(x.void), OM.calc.floors.speedFactor(x.floor, p).toFixed(2) + 'x'], hl: x.floor === cur })), { num: [0, 2, 3, 4] }),
+        el('p', { class: 'small muted', style: 'margin-top:.5rem' }, 'Highlighted: your current floor. Floors outside this range only matter through portals and are included when they rank in the top five.')
+      ]));
+    }
+    root.appendChild(el('div', { class: 'panel' }, [
+      el('div', { class: 'row' }, [el('label', {}, ['Farm for', modeSel]), el('label', {}, ['Ore', oreSel]), el('label', {}, ['Vein', veinSel])]),
+      el('div', { class: 'row', style: 'margin-top:.6rem' }, [
+        num(st, 'voidC', 'Void portal chance %', { on: render }), num(st, 'voidM', 'Void portal multiplier', { on: render }),
+        num(p, 'gameSpeed', 'Base game speed', { on: render }), num(st, 'w4Quests', 'World 4 quests done', { on: render, step: '1' }), chk(p, 'w3Fix', 'World 3 speed fix bought', render),
+        num(p, 'oresPerScreen', 'Ores per screen', { on: render }), chk(p, 'research', '2x vein research', render), num(p, 'morphChance', 'Veinmorpher morph chance (0-1)', { on: render }), num(p, 'morphGold', 'Veinmorpher golden chance (0-1)', { on: render })
+      ]),
+      el('p', { class: 'small muted', style: 'margin-top:.5rem' }, voidHint + ' Base game speed is your exported speed with the current floor\'s slowdown removed.')
+    ]));
+    root.appendChild(out);
+    render();
+  };
 })(window.OM);
 
 // Routing and state. Sections are keyed by hash: #import, #overview, #bombs, #growth, #stats, #about
@@ -846,7 +1505,7 @@ window.OM = window.OM || {};
     return (id && OM.store.get(id)) || OM.store.latest();
   };
 
-  const ROUTES = ['import', 'overview', 'bombs', 'growth', 'stats', 'about'];
+  const ROUTES = ['import', 'overview', 'growth', 'stats', 'bombs', 'floors', 'contracts', 'crafting', 'veins', 'frogger', 'lootfrogs', 'cards', 'about'];
 
   OM.render = function () {
     let route = (location.hash || '').replace('#', '');
@@ -867,8 +1526,12 @@ window.OM = window.OM || {};
 
   function loadData() {
     // bombs.json is inlined when built as a single file; otherwise fetch it.
-    if (OM.data.bombs) return Promise.resolve();
-    return fetch('data/bombs.json').then(r => r.json()).then(d => { OM.data.bombs = d.bombs; }).catch(() => { OM.data.bombs = []; OM.toast('Could not load data/bombs.json'); });
+    if (OM.data.bombs && OM.data.contracts && OM.data.floors) return Promise.resolve();
+    return Promise.all([
+      fetch('data/bombs.json').then(r => r.json()).then(d => { OM.data.bombs = d.bombs; }),
+      fetch('data/contracts.json').then(r => r.json()).then(d => { OM.data.contracts = d; }),
+      fetch('data/floors.json').then(r => r.json()).then(d => { OM.data.floors = d; })
+    ]).catch(() => { OM.data.bombs = OM.data.bombs || []; OM.data.contracts = OM.data.contracts || { contracts: [], pointsTable: [], tags: {} }; OM.data.floors = OM.data.floors || { ores: [], veins: [], speedFloors: { ranges: [], world3: [73, 102, 0.7], world4Start: 103, voidReduced: [] }, goldenFloorCaps: { caps: [], rainbowTierScale: [], halfGoldenOre: [], prismaticMinus: [] }, w4SpeedByQuests: [[0, 0.8]] }; OM.toast('Could not load data files'); });
   }
 
   document.addEventListener('DOMContentLoaded', () => {

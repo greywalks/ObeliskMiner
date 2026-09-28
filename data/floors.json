@@ -1,0 +1,1303 @@
+{
+ "_source": "IOM Best Floor To Farm V3.3.4 (Zones and Ores per Floor sheets). floors = fraction of ores on that floor that are this ore. barCost = base ore cost of the matching bar (Zones sheet); multiply by bar_craft_cost_multi for the current cost.",
+ "ores": [
+  {
+   "name": "Tin",
+   "world": 1,
+   "firstFloor": 1,
+   "floors": {
+    "1": 0.8,
+    "2": 0.5
+   },
+   "barCost": 5.0
+  },
+  {
+   "name": "Copper",
+   "world": 1,
+   "firstFloor": 1,
+   "floors": {
+    "1": 0.2,
+    "2": 0.5,
+    "3": 0.8,
+    "4": 0.5
+   },
+   "barCost": 6.0
+  },
+  {
+   "name": "Mithril",
+   "world": 1,
+   "firstFloor": 3,
+   "floors": {
+    "3": 0.2,
+    "4": 0.5,
+    "5": 0.8,
+    "6": 0.5
+   },
+   "barCost": 7.0
+  },
+  {
+   "name": "Adamant",
+   "world": 1,
+   "firstFloor": 5,
+   "floors": {
+    "5": 0.2,
+    "6": 0.5,
+    "7": 0.8,
+    "8": 0.5
+   },
+   "barCost": 8.0
+  },
+  {
+   "name": "Runite",
+   "world": 1,
+   "firstFloor": 7,
+   "floors": {
+    "7": 0.2,
+    "8": 0.5,
+    "9": 0.8,
+    "10": 0.5
+   },
+   "barCost": 9.0
+  },
+  {
+   "name": "Citrine",
+   "world": 1,
+   "firstFloor": 9,
+   "floors": {
+    "9": 0.2,
+    "10": 0.5,
+    "11": 0.8,
+    "12": 0.5
+   },
+   "barCost": 10.0
+  },
+  {
+   "name": "Amethyst",
+   "world": 1,
+   "firstFloor": 11,
+   "floors": {
+    "11": 0.2,
+    "12": 0.5,
+    "13": 0.8,
+    "14": 0.5
+   },
+   "barCost": 11.0
+  },
+  {
+   "name": "Topaz",
+   "world": 1,
+   "firstFloor": 13,
+   "floors": {
+    "13": 0.2,
+    "14": 0.5,
+    "15": 0.8,
+    "16": 0.5
+   },
+   "barCost": 12.0
+  },
+  {
+   "name": "Obsidian",
+   "world": 1,
+   "firstFloor": 15,
+   "floors": {
+    "15": 0.2,
+    "16": 0.5,
+    "17": 0.8,
+    "18": 0.5
+   },
+   "barCost": 13.0
+  },
+  {
+   "name": "Demonite",
+   "world": 1,
+   "firstFloor": 17,
+   "floors": {
+    "17": 0.2,
+    "18": 0.5
+   },
+   "barCost": 14.0
+  },
+  {
+   "name": "VR-Tin",
+   "world": 1,
+   "firstFloor": 19,
+   "floors": {
+    "19": 0.8,
+    "20": 0.5
+   },
+   "barCost": 16.0
+  },
+  {
+   "name": "VR-Amethyst",
+   "world": 1,
+   "firstFloor": 19,
+   "floors": {
+    "19": 0.2,
+    "20": 0.5,
+    "21": 0.8,
+    "22": 0.5
+   },
+   "barCost": 18.0
+  },
+  {
+   "name": "VR-Demonite",
+   "world": 1,
+   "firstFloor": 21,
+   "floors": {
+    "21": 0.2,
+    "22": 0.5,
+    "23": 0.8,
+    "24": 0.5
+   },
+   "barCost": 20.0
+  },
+  {
+   "name": "VR-ERROR",
+   "world": 1,
+   "firstFloor": 23,
+   "floors": {
+    "23": 0.2,
+    "24": 0.5
+   },
+   "barCost": 22.0
+  },
+  {
+   "name": "Lunarium",
+   "world": 1,
+   "firstFloor": 25,
+   "floors": {
+    "25": 0.8,
+    "26": 0.5
+   },
+   "barCost": 25.0
+  },
+  {
+   "name": "Earth-C-137",
+   "world": 1,
+   "firstFloor": 25,
+   "floors": {
+    "25": 0.2,
+    "26": 0.5,
+    "27": 0.8,
+    "28": 0.5
+   },
+   "barCost": 28.0
+  },
+  {
+   "name": "Meteorite",
+   "world": 1,
+   "firstFloor": 27,
+   "floors": {
+    "27": 0.2,
+    "28": 0.5,
+    "29": 0.8,
+    "30": 0.5
+   },
+   "barCost": 31.0
+  },
+  {
+   "name": "Singularity",
+   "world": 1,
+   "firstFloor": 29,
+   "floors": {
+    "29": 0.2,
+    "30": 0.5
+   },
+   "barCost": 34.0
+  },
+  {
+   "name": "Halium",
+   "world": 1,
+   "firstFloor": 31,
+   "floors": {
+    "31": 0.8,
+    "32": 0.5
+   },
+   "barCost": 38.0
+  },
+  {
+   "name": "Blasphemite",
+   "world": 1,
+   "firstFloor": 31,
+   "floors": {
+    "31": 0.2,
+    "32": 0.5,
+    "33": 0.8,
+    "34": 0.5
+   },
+   "barCost": 42.0
+  },
+  {
+   "name": "Angelite",
+   "world": 1,
+   "firstFloor": 33,
+   "floors": {
+    "33": 0.2,
+    "34": 0.5,
+    "35": 0.8,
+    "36": 0.5
+   },
+   "barCost": 46.0
+  },
+  {
+   "name": "Elysium",
+   "world": 1,
+   "firstFloor": 35,
+   "floors": {
+    "35": 0.2,
+    "36": 0.5
+   },
+   "barCost": 50.0
+  },
+  {
+   "name": "Enemite",
+   "world": 1,
+   "firstFloor": 37,
+   "floors": {
+    "37": 0.8,
+    "38": 0.5
+   },
+   "barCost": 60.0
+  },
+  {
+   "name": "Beepboopium",
+   "world": 1,
+   "firstFloor": 37,
+   "floors": {
+    "37": 0.2,
+    "38": 0.5,
+    "39": 0.8,
+    "40": 0.5
+   },
+   "barCost": 70.0
+  },
+  {
+   "name": "Radion-73",
+   "world": 1,
+   "firstFloor": 39,
+   "floors": {
+    "39": 0.2,
+    "40": 0.5,
+    "41": 0.8,
+    "42": 0.5
+   },
+   "barCost": 80.0
+  },
+  {
+   "name": "Cranium",
+   "world": 1,
+   "firstFloor": 41,
+   "floors": {
+    "41": 0.2,
+    "42": 0.5
+   },
+   "barCost": 90.0
+  },
+  {
+   "name": "Lapis",
+   "world": 2,
+   "firstFloor": 43,
+   "floors": {
+    "43": 0.8,
+    "44": 0.5
+   },
+   "barCost": 100.0
+  },
+  {
+   "name": "Quartz",
+   "world": 2,
+   "firstFloor": 43,
+   "floors": {
+    "43": 0.2,
+    "44": 0.5,
+    "45": 0.8,
+    "46": 0.5
+   },
+   "barCost": 110.0
+  },
+  {
+   "name": "Glacialite",
+   "world": 2,
+   "firstFloor": 45,
+   "floors": {
+    "45": 0.2,
+    "46": 0.5,
+    "47": 0.8,
+    "48": 0.5
+   },
+   "barCost": 120.0
+  },
+  {
+   "name": "Twinklestone",
+   "world": 2,
+   "firstFloor": 47,
+   "floors": {
+    "47": 0.2,
+    "48": 0.5
+   },
+   "barCost": 130.0
+  },
+  {
+   "name": "Sandcasium",
+   "world": 2,
+   "firstFloor": 49,
+   "floors": {
+    "49": 0.8,
+    "50": 0.5
+   },
+   "barCost": 140.0
+  },
+  {
+   "name": "Clamite",
+   "world": 2,
+   "firstFloor": 49,
+   "floors": {
+    "49": 0.2,
+    "50": 0.5,
+    "51": 0.8,
+    "52": 0.5
+   },
+   "barCost": 150.0
+  },
+  {
+   "name": "Thunderstone",
+   "world": 2,
+   "firstFloor": 51,
+   "floors": {
+    "51": 0.2,
+    "52": 0.5,
+    "53": 0.8,
+    "54": 0.5
+   },
+   "barCost": 160.0
+  },
+  {
+   "name": "Crabrock",
+   "world": 2,
+   "firstFloor": 53,
+   "floors": {
+    "53": 0.2,
+    "54": 0.5
+   },
+   "barCost": 170.0
+  },
+  {
+   "name": "Hailstone",
+   "world": 2,
+   "firstFloor": 55,
+   "floors": {
+    "55": 0.8,
+    "56": 0.5
+   },
+   "barCost": 180.0
+  },
+  {
+   "name": "Frostbite",
+   "world": 2,
+   "firstFloor": 55,
+   "floors": {
+    "55": 0.2,
+    "56": 0.5,
+    "57": 0.8,
+    "58": 0.5
+   },
+   "barCost": 190.0
+  },
+  {
+   "name": "Icebloom",
+   "world": 2,
+   "firstFloor": 57,
+   "floors": {
+    "57": 0.2,
+    "58": 0.5,
+    "59": 0.8,
+    "60": 0.5
+   },
+   "barCost": 200.0
+  },
+  {
+   "name": "Pinguinus",
+   "world": 2,
+   "firstFloor": 59,
+   "floors": {
+    "59": 0.2,
+    "60": 0.5
+   },
+   "barCost": 210.0
+  },
+  {
+   "name": "Macawrock",
+   "world": 2,
+   "firstFloor": 61,
+   "floors": {
+    "61": 0.8,
+    "62": 0.5
+   },
+   "barCost": 238.0
+  },
+  {
+   "name": "Cocore",
+   "world": 2,
+   "firstFloor": 61,
+   "floors": {
+    "61": 0.2,
+    "62": 0.5,
+    "63": 0.8,
+    "64": 0.5
+   },
+   "barCost": 266.0
+  },
+  {
+   "name": "Rafflenium",
+   "world": 2,
+   "firstFloor": 63,
+   "floors": {
+    "63": 0.2,
+    "64": 0.5,
+    "65": 0.8,
+    "66": 0.5
+   },
+   "barCost": 294.0
+  },
+  {
+   "name": "Carnivorian",
+   "world": 2,
+   "firstFloor": 65,
+   "floors": {
+    "65": 0.2,
+    "66": 0.5
+   },
+   "barCost": 322.0
+  },
+  {
+   "name": "Infernite",
+   "world": 2,
+   "firstFloor": 67,
+   "floors": {
+    "67": 0.8,
+    "68": 0.5
+   },
+   "barCost": 350.0
+  },
+  {
+   "name": "Blood-Onyx",
+   "world": 2,
+   "firstFloor": 67,
+   "floors": {
+    "67": 0.2,
+    "68": 0.5,
+    "69": 0.8,
+    "70": 0.5
+   },
+   "barCost": 378.0
+  },
+  {
+   "name": "Cyrogem",
+   "world": 2,
+   "firstFloor": 69,
+   "floors": {
+    "69": 0.2,
+    "70": 0.5,
+    "71": 0.8,
+    "72": 0.5
+   },
+   "barCost": 406.0
+  },
+  {
+   "name": "Pinnaclite",
+   "world": 2,
+   "firstFloor": 71,
+   "floors": {
+    "71": 0.2,
+    "72": 0.5
+   },
+   "barCost": 434.0
+  },
+  {
+   "name": "Omeletite",
+   "world": 3,
+   "firstFloor": 73,
+   "floors": {
+    "73": 0.8,
+    "74": 0.5
+   },
+   "barCost": 502.0
+  },
+  {
+   "name": "Resinite",
+   "world": 3,
+   "firstFloor": 73,
+   "floors": {
+    "73": 0.2,
+    "74": 0.5,
+    "75": 0.8,
+    "76": 0.5
+   },
+   "barCost": 570.0
+  },
+  {
+   "name": "Impactium",
+   "world": 3,
+   "firstFloor": 75,
+   "floors": {
+    "75": 0.2,
+    "76": 0.5,
+    "77": 0.8,
+    "78": 0.5
+   },
+   "barCost": 638.0
+  },
+  {
+   "name": "Tricerastone",
+   "world": 3,
+   "firstFloor": 77,
+   "floors": {
+    "77": 0.2,
+    "78": 0.5
+   },
+   "barCost": 706.0
+  },
+  {
+   "name": "Duelysium",
+   "world": 3,
+   "firstFloor": 79,
+   "floors": {
+    "79": 0.8,
+    "80": 0.5
+   },
+   "barCost": 774.0
+  },
+  {
+   "name": "Arcusite",
+   "world": 3,
+   "firstFloor": 79,
+   "floors": {
+    "79": 0.2,
+    "80": 0.5,
+    "81": 0.8,
+    "82": 0.5
+   },
+   "barCost": 842.0
+  },
+  {
+   "name": "Phalanxite",
+   "world": 3,
+   "firstFloor": 81,
+   "floors": {
+    "81": 0.2,
+    "82": 0.5,
+    "83": 0.8,
+    "84": 0.5
+   },
+   "barCost": 910.0
+  },
+  {
+   "name": "Guardium",
+   "world": 3,
+   "firstFloor": 83,
+   "floors": {
+    "83": 0.2,
+    "84": 0.5
+   },
+   "barCost": 978.0
+  },
+  {
+   "name": "Cognite",
+   "world": 3,
+   "firstFloor": 85,
+   "floors": {
+    "85": 0.8,
+    "86": 0.5
+   },
+   "barCost": 1046.0
+  },
+  {
+   "name": "Telophite",
+   "world": 3,
+   "firstFloor": 85,
+   "floors": {
+    "85": 0.2,
+    "86": 0.5,
+    "87": 0.8,
+    "88": 0.5
+   },
+   "barCost": 1114.0
+  },
+  {
+   "name": "Steamstone",
+   "world": 3,
+   "firstFloor": 87,
+   "floors": {
+    "87": 0.2,
+    "88": 0.5,
+    "89": 0.8,
+    "90": 0.5
+   },
+   "barCost": 1182.0
+  },
+  {
+   "name": "Equinine",
+   "world": 3,
+   "firstFloor": 89,
+   "floors": {
+    "89": 0.2,
+    "90": 0.5
+   },
+   "barCost": 1250.0
+  },
+  {
+   "name": "Dynamite",
+   "world": 3,
+   "firstFloor": 91,
+   "floors": {
+    "91": 0.8,
+    "92": 0.5
+   },
+   "barCost": 1458.0
+  },
+  {
+   "name": "Genevium",
+   "world": 3,
+   "firstFloor": 91,
+   "floors": {
+    "91": 0.2,
+    "92": 0.5,
+    "93": 0.8,
+    "94": 0.5
+   },
+   "barCost": 1666.0
+  },
+  {
+   "name": "Manhattite",
+   "world": 3,
+   "firstFloor": 93,
+   "floors": {
+    "93": 0.2,
+    "94": 0.5,
+    "95": 0.8,
+    "96": 0.5
+   },
+   "barCost": 1874.0
+  },
+  {
+   "name": "Rationium",
+   "world": 3,
+   "firstFloor": 95,
+   "floors": {
+    "95": 0.2,
+    "96": 0.5
+   },
+   "barCost": 2082.0
+  },
+  {
+   "name": "Vaporium",
+   "world": 3,
+   "firstFloor": 97,
+   "floors": {
+    "97": 0.8,
+    "98": 0.5
+   },
+   "barCost": 2290.0
+  },
+  {
+   "name": "Palmite",
+   "world": 3,
+   "firstFloor": 97,
+   "floors": {
+    "97": 0.2,
+    "98": 0.5,
+    "99": 0.8,
+    "100": 0.5
+   },
+   "barCost": 2498.0
+  },
+  {
+   "name": "Ransomite",
+   "world": 3,
+   "firstFloor": 99,
+   "floors": {
+    "99": 0.2,
+    "100": 0.5,
+    "101": 0.8,
+    "102": 0.5
+   },
+   "barCost": 2706.0
+  },
+  {
+   "name": "MVPD-1988",
+   "world": 3,
+   "firstFloor": 101,
+   "floors": {
+    "101": 0.2,
+    "102": 0.5
+   },
+   "barCost": 2914.0
+  },
+  {
+   "name": "Chronite",
+   "world": 4,
+   "firstFloor": 103,
+   "floors": {
+    "103": 0.8,
+    "104": 0.5
+   },
+   "barCost": 4122.0
+  },
+  {
+   "name": "Hattium",
+   "world": 4,
+   "firstFloor": 103,
+   "floors": {
+    "103": 0.2,
+    "104": 0.5,
+    "105": 0.8,
+    "106": 0.5
+   },
+   "barCost": 5330.0
+  },
+  {
+   "name": "Pishalvite",
+   "world": 4,
+   "firstFloor": 105,
+   "floors": {
+    "105": 0.2,
+    "106": 0.5,
+    "107": 0.8,
+    "108": 0.5
+   },
+   "barCost": 6538.0
+  },
+  {
+   "name": "Teatimium",
+   "world": 4,
+   "firstFloor": 107,
+   "floors": {
+    "107": 0.2,
+    "108": 0.5
+   },
+   "barCost": 7746.0
+  },
+  {
+   "name": "Rumium",
+   "world": 4,
+   "firstFloor": 109,
+   "floors": {
+    "109": 0.8,
+    "110": 0.5
+   },
+   "barCost": 8954.0
+  },
+  {
+   "name": "Anchorium",
+   "world": 4,
+   "firstFloor": 109,
+   "floors": {
+    "109": 0.2,
+    "110": 0.5,
+    "111": 0.8,
+    "112": 0.5
+   },
+   "barCost": 10162.0
+  },
+  {
+   "name": "Mateyum",
+   "world": 4,
+   "firstFloor": 111,
+   "floors": {
+    "111": 0.2,
+    "112": 0.5,
+    "113": 0.8,
+    "114": 0.5
+   },
+   "barCost": 11370.0
+  },
+  {
+   "name": "Hookite",
+   "world": 4,
+   "firstFloor": 113,
+   "floors": {
+    "113": 0.2,
+    "114": 0.5
+   },
+   "barCost": 12578.0
+  },
+  {
+   "name": "Carpetite",
+   "world": 4,
+   "firstFloor": 115,
+   "floors": {
+    "115": 0.8,
+    "116": 0.5
+   },
+   "barCost": 13786.0
+  },
+  {
+   "name": "Djinnium",
+   "world": 4,
+   "firstFloor": 115,
+   "floors": {
+    "115": 0.2,
+    "116": 0.5,
+    "117": 0.8,
+    "118": 0.5
+   },
+   "barCost": 14994.0
+  },
+  {
+   "name": "Sinbadium",
+   "world": 4,
+   "firstFloor": 117,
+   "floors": {
+    "117": 0.2,
+    "118": 0.5,
+    "119": 0.8,
+    "120": 0.5
+   },
+   "barCost": 16202.0
+  },
+  {
+   "name": "Turbanite",
+   "world": 4,
+   "firstFloor": 119,
+   "floors": {
+    "119": 0.2,
+    "120": 0.5
+   },
+   "barCost": 17410.0
+  },
+  {
+   "name": "Carriagum",
+   "world": 4,
+   "firstFloor": 121,
+   "floors": {
+    "121": 0.8,
+    "122": 0.5
+   },
+   "barCost": 18618.0
+  },
+  {
+   "name": "Crystal-Rose",
+   "world": 4,
+   "firstFloor": 121,
+   "floors": {
+    "121": 0.2,
+    "122": 0.5,
+    "123": 0.8,
+    "124": 0.5
+   },
+   "barCost": 19826.0
+  },
+  {
+   "name": "Frogstone",
+   "world": 4,
+   "firstFloor": 123,
+   "floors": {
+    "123": 0.2,
+    "124": 0.5,
+    "125": 0.8,
+    "126": 0.5
+   },
+   "barCost": 21034.0
+  },
+  {
+   "name": "Slipperite",
+   "world": 4,
+   "firstFloor": 125,
+   "floors": {
+    "125": 0.2,
+    "126": 0.5
+   },
+   "barCost": 22242.0
+  },
+  {
+   "name": "Jellystone",
+   "world": 4,
+   "firstFloor": 127,
+   "floors": {
+    "127": 0.8,
+    "128": 0.5
+   },
+   "barCost": 23450.0
+  },
+  {
+   "name": "Lollipopite",
+   "world": 4,
+   "firstFloor": 127,
+   "floors": {
+    "127": 0.2,
+    "128": 0.5,
+    "129": 0.8,
+    "130": 0.5
+   },
+   "barCost": 24658.0
+  },
+  {
+   "name": "Mintium",
+   "world": 4,
+   "firstFloor": 129,
+   "floors": {
+    "129": 0.2,
+    "130": 0.5,
+    "131": 0.8,
+    "132": 0.5
+   },
+   "barCost": 25866.0
+  },
+  {
+   "name": "Neopolium",
+   "world": 4,
+   "firstFloor": 131,
+   "floors": {
+    "131": 0.2,
+    "132": 0.5
+   },
+   "barCost": 27074.0
+  }
+ ],
+ "veins": [
+  {
+   "name": "Stone Vein",
+   "firstFloor": 1,
+   "lastFloor": 8,
+   "rarity": 15,
+   "firstOre": 1,
+   "lastOre": 5
+  },
+  {
+   "name": "Magma Vein",
+   "firstFloor": 9,
+   "lastFloor": 18,
+   "rarity": 20,
+   "firstOre": 6,
+   "lastOre": 10
+  },
+  {
+   "name": "Virtual Vein",
+   "firstFloor": 19,
+   "lastFloor": 24,
+   "rarity": 25,
+   "firstOre": 11,
+   "lastOre": 14
+  },
+  {
+   "name": "Space Vein",
+   "firstFloor": 25,
+   "lastFloor": 30,
+   "rarity": 30,
+   "firstOre": 15,
+   "lastOre": 18
+  },
+  {
+   "name": "Cloud Vein",
+   "firstFloor": 31,
+   "lastFloor": 36,
+   "rarity": 35,
+   "firstOre": 19,
+   "lastOre": 22
+  },
+  {
+   "name": "Atomic Vein",
+   "firstFloor": 37,
+   "lastFloor": 42,
+   "rarity": 40,
+   "firstOre": 23,
+   "lastOre": 26
+  },
+  {
+   "name": "Deep Sea Vein",
+   "firstFloor": 43,
+   "lastFloor": 48,
+   "rarity": 50,
+   "firstOre": 27,
+   "lastOre": 30
+  },
+  {
+   "name": "Beach Vein",
+   "firstFloor": 49,
+   "lastFloor": 54,
+   "rarity": 50,
+   "firstOre": 31,
+   "lastOre": 34
+  },
+  {
+   "name": "Valley Vein",
+   "firstFloor": 55,
+   "lastFloor": 60,
+   "rarity": 50,
+   "firstOre": 35,
+   "lastOre": 38
+  },
+  {
+   "name": "Jungle Vein",
+   "firstFloor": 61,
+   "lastFloor": 66,
+   "rarity": 50,
+   "firstOre": 39,
+   "lastOre": 42
+  },
+  {
+   "name": "Volcano Vein",
+   "firstFloor": 67,
+   "lastFloor": 72,
+   "rarity": 50,
+   "firstOre": 43,
+   "lastOre": 46
+  },
+  {
+   "name": "Jurassic Vein",
+   "firstFloor": 73,
+   "lastFloor": 78,
+   "rarity": 70,
+   "firstOre": 47,
+   "lastOre": 50
+  },
+  {
+   "name": "Roman Vein",
+   "firstFloor": 79,
+   "lastFloor": 84,
+   "rarity": 70,
+   "firstOre": 51,
+   "lastOre": 54
+  },
+  {
+   "name": "Industrial Vein",
+   "firstFloor": 85,
+   "lastFloor": 90,
+   "rarity": 70,
+   "firstOre": 55,
+   "lastOre": 58
+  },
+  {
+   "name": "Warfront Vein",
+   "firstFloor": 91,
+   "lastFloor": 96,
+   "rarity": 70,
+   "firstOre": 59,
+   "lastOre": 62
+  },
+  {
+   "name": "Neon Vein",
+   "firstFloor": 97,
+   "lastFloor": 102,
+   "rarity": 70,
+   "firstOre": 63,
+   "lastOre": 66
+  },
+  {
+   "name": "Wonderland Vein",
+   "firstFloor": 103,
+   "lastFloor": 108,
+   "rarity": 100,
+   "firstOre": 67,
+   "lastOre": 70
+  },
+  {
+   "name": "Pirate Vein",
+   "firstFloor": 109,
+   "lastFloor": 114,
+   "rarity": 100,
+   "firstOre": 71,
+   "lastOre": 74
+  },
+  {
+   "name": "Arabian Vein",
+   "firstFloor": 115,
+   "lastFloor": 120,
+   "rarity": 100,
+   "firstOre": 75,
+   "lastOre": 78
+  },
+  {
+   "name": "Enchanted Vein",
+   "firstFloor": 121,
+   "lastFloor": 126,
+   "rarity": 100,
+   "firstOre": 79,
+   "lastOre": 82
+  },
+  {
+   "name": "Candyland Vein",
+   "firstFloor": 127,
+   "lastFloor": 132,
+   "rarity": 100,
+   "firstOre": 83,
+   "lastOre": 86
+  }
+ ],
+ "speedFloors": {
+  "_note": "per-floor game speed factors from Best Ore AO column / Best Veins AA column",
+  "ranges": [
+   [
+    71,
+    72,
+    0.75
+   ],
+   [
+    89,
+    92,
+    0.75
+   ],
+   [
+    97,
+    98,
+    0.75
+   ],
+   [
+    119,
+    120,
+    0.7
+   ],
+   [
+    121,
+    124,
+    0.6
+   ]
+  ],
+  "world3": [
+   73,
+   102,
+   0.7
+  ],
+  "world4Start": 103,
+  "voidReduced": [
+   [
+    103,
+    106
+   ],
+   [
+    129,
+    132
+   ]
+  ]
+ },
+ "goldenFloorCaps": {
+  "_note": "golden floor chance cap by floor (Best Ore AN column). rainbowTierScale scales rainbow+ floor tiers. prismaticMinus reduces prismatic chance.",
+  "caps": [
+   [
+    69,
+    72,
+    0.5
+   ],
+   [
+    75,
+    78,
+    0.5
+   ],
+   [
+    81,
+    84,
+    0.45
+   ],
+   [
+    91,
+    94,
+    0.45
+   ],
+   [
+    87,
+    90,
+    0.4
+   ],
+   [
+    99,
+    100,
+    0.4
+   ],
+   [
+    101,
+    102,
+    0.4
+   ],
+   [
+    105,
+    106,
+    0.4
+   ],
+   [
+    107,
+    108,
+    0.4
+   ],
+   [
+    111,
+    114,
+    0.35
+   ],
+   [
+    117,
+    120,
+    0.3
+   ],
+   [
+    127,
+    130,
+    0.3
+   ]
+  ],
+  "rainbowTierScale": [
+   [
+    65,
+    66,
+    0.5
+   ],
+   [
+    85,
+    86,
+    0.5
+   ],
+   [
+    101,
+    102,
+    0.4
+   ],
+   [
+    109,
+    110,
+    0.4
+   ]
+  ],
+  "halfGoldenOre": [
+   [
+    115,
+    116
+   ]
+  ],
+  "prismaticMinus": [
+   [
+    123,
+    126,
+    0.15
+   ]
+  ]
+ },
+ "w4SpeedByQuests": [
+  [
+   23,
+   0.2
+  ],
+  [
+   15,
+   0.3
+  ],
+  [
+   12,
+   0.4
+  ],
+  [
+   7,
+   0.5
+  ],
+  [
+   4,
+   0.6
+  ],
+  [
+   1,
+   0.7
+  ],
+  [
+   0,
+   0.8
+  ]
+ ]
+}

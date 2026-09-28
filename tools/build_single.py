@@ -9,7 +9,9 @@ html = open(os.path.join(root, 'index.html')).read()
 css = open(os.path.join(root, 'css/app.css')).read()
 html = html.replace('<link rel="stylesheet" href="css/app.css">', '<style>\n' + css + '\n</style>')
 bombs = json.load(open(os.path.join(root, 'data/bombs.json')))
-data_js = 'window.OM = window.OM || {}; window.OM.data = ' + json.dumps({'bombs': bombs['bombs']}) + ';'
+contracts = json.load(open(os.path.join(root, 'data/contracts.json')))
+floors = json.load(open(os.path.join(root, 'data/floors.json')))
+data_js = 'window.OM = window.OM || {}; window.OM.data = ' + json.dumps({'bombs': bombs['bombs'], 'contracts': contracts, 'floors': floors}) + ';'
 scripts = [data_js]
 for m in re.finditer(r'<script src="(js/[^"]+)"></script>', html):
     scripts.append(open(os.path.join(root, m.group(1))).read())

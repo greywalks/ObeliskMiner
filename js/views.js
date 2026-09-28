@@ -315,9 +315,9 @@
       el('p', {}, 'A planning tool for Idle Obelisk Miner. Paste your EXPORTSTATS JSON to see where your stats stand, how fast they are growing, and how long things will take.'),
       el('p', {}, 'Everything stays in your browser. There is no server and no account. Use "Back up all snapshots" on the Import page to keep a copy.'),
       el('h3', {}, 'Formula sources'),
-      el('p', {}, 'Bomb base cooldowns and the recharge formula come from the community Obelisk Total Resources Calculator. The full extracted formula reference for all community calculators lives in the repository under docs/formulas.'),
+      el('p', {}, 'Bomb base cooldowns and the recharge formula come from the community Obelisk Total Resources Calculator. Contracts, Transmuter vs BoP, Veins, Frogger, Lootfrogs and Card shards are ports of the community calculators of the same names, checked against their outputs. The full extracted formula reference lives in the repository under docs/formulas.'),
       el('h3', {}, 'Known assumptions'),
-      el('p', {}, 'Crit tiers are modelled as nested rolls (only a crit can super crit, and so on). Chances above 100% are flagged as wasted unless the game is known to convert overflow. Buff timer arrays are shown by index because the export does not name the slots.'),
+      el('p', {}, 'Crit tiers are modelled as nested rolls (only a crit can super crit, and so on). Chances above 100% are flagged as wasted unless the game is known to convert overflow. Buff timer arrays are shown by index because the export does not name the slots. In the vein calculator the Veinmorpher effect is applied as a real chance to turn veins golden; the source sheet used a placeholder there. In Best floor, the reduced void chance on floors 103-106 and 129-132 is applied to the void portal chance directly rather than through the source sheet\'s ratio column, and per-floor speed slowdowns are applied once.'),
       el('p', { class: 'small muted' }, 'Idle Obelisk Miner is made by Checkbox Entertainment. This tool is a fan project and is not affiliated with them.')
     ]));
   };

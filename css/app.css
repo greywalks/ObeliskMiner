@@ -68,6 +68,7 @@ label > input, label > select { color: var(--ink); }
   border-left: 3px solid transparent;
 }
 .nav a:hover { background: var(--rock-3); }
+.navhead { color: var(--ink-2); font-size: .78rem; padding: .7rem .65rem .15rem; }
 .nav a.active { background: var(--rock-3); border-left-color: var(--copper); }
 .side .snap { margin-top: 1.4rem; font-size: .85rem; color: var(--ink-2); }
 .side .snap select { width: 100%; margin-top: .3rem; }
