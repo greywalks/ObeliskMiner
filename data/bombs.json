@@ -1,0 +1,18 @@
+{
+  "_source": "Obelisk Total Resources Calculator v7.2, sheet 'Bombs'. True time = base / bomb_recharge_speed / game_speed_multi.",
+  "bombs": [
+    { "key": "basic",       "name": "Basic Bomb",       "base": 30,  "effect": "No special effect" },
+    { "key": "chain",       "name": "Chain Bomb",       "base": 60,  "effect": "Fires multiple bombs" },
+    { "key": "plenty",      "name": "Bomb of Plenty",   "base": 110, "effect": "Marks ores to give more ores; chance to turn ores golden" },
+    { "key": "exp",         "name": "Exp Bomb",         "base": 120, "effect": "Marks ores to give more exp" },
+    { "key": "mega",        "name": "MEGABOMB",         "base": 120, "effect": "Marks ores to take more damage" },
+    { "key": "infinity",    "name": "Infinity Bomb",    "base": 160, "effect": "Increases damage multi per infinity bomb fired" },
+    { "key": "transmuter",  "name": "Transmuter Bomb",  "base": 250, "effect": "Marks ores to drop bars; chance to apply a Bomb of Plenty stack" },
+    { "key": "gem",         "name": "Gem Bomb",         "base": 315, "effect": "Chance to get a gem when fired" },
+    { "key": "cherry",      "name": "Cherry Bomb",      "base": 330, "effect": "Next bomb fired will not consume a charge; chance for triple charge" },
+    { "key": "battery",     "name": "Battery Bomb",     "base": 345, "effect": "Charges 2 random bombs; 0.1% chance to raise bomb capacity by 1" },
+    { "key": "d20",         "name": "D20 Bomb",         "base": 400, "effect": "5% chance to refill other bomb charges" },
+    { "key": "founders",    "name": "Founder's Bomb",   "base": 540, "effect": "10% chance to give 10 seconds of 2x game speed" },
+    { "key": "veinmorpher", "name": "Veinmorpher Bomb", "base": 570, "effect": "Chance to morph all ores to veins; chance to make all veins golden" }
+  ]
+}

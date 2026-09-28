@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Obelisk Miner Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rock: #242b34;
+  --rock-2: #2e3742;
+  --rock-3: #38424f;
+  --seam: #46525f;
+  --ink: #e8ecf1;
+  --ink-2: #a6b1bf;
+  --copper: #d6893f;
+  --copper-2: #f0a75c;
+  --mithril: #63b7a4;
+  --amber: #e0b04b;
+  --ember: #d9655a;
+  --radius: 6px;
+  --radius-lg: 10px;
+  --font: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); height: 100%; }
+body {
+  margin: 0; min-height: 100%;
+  background: var(--rock); color: var(--ink);
+  font-family: var(--font); font-size: 15px; line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+a { color: var(--copper-2); }
+h1, h2, h3 { margin: 0 0 .5rem; line-height: 1.2; font-weight: 700; }
+h1 { font-size: 1.55rem; letter-spacing: -.01em; }
+h2 { font-size: 1.2rem; margin-top: .25rem; }
+h3 { font-size: 1rem; color: var(--ink-2); font-weight: 600; }
+p { margin: 0 0 .75rem; max-width: 70ch; }
+code { font-family: ui-monospace, "Cascadia Code", Menlo, monospace; font-size: .9em; background: var(--rock-3); padding: .05em .35em; border-radius: 4px; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button {
+  background: var(--rock-3); border: 1px solid var(--seam); color: var(--ink);
+  padding: .45rem .9rem; border-radius: var(--radius); cursor: pointer;
+}
+button:hover { border-color: var(--copper); }
+button.primary { background: var(--copper); border-color: var(--copper); color: #1a1208; font-weight: 700; }
+button.primary:hover { background: var(--copper-2); }
+button.danger { color: var(--ember); }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible {
+  outline: 2px solid var(--mithril); outline-offset: 2px;
+}
+input, select, textarea {
+  background: var(--rock); border: 1px solid var(--seam); border-radius: var(--radius);
+  padding: .4rem .55rem;
+}
+input[type="number"] { width: 9rem; }
+textarea { width: 100%; min-height: 220px; resize: vertical; font-family: ui-monospace, Menlo, monospace; font-size: .85rem; }
+label { display: inline-flex; flex-direction: column; gap: .25rem; font-size: .85rem; color: var(--ink-2); }
+label > input, label > select { color: var(--ink); }
+
+.layout { display: grid; grid-template-columns: 220px 1fr; min-height: 100vh; }
+.side {
+  background: var(--rock-2); border-right: 1px solid var(--seam);
+  padding: 1.1rem .9rem; position: sticky; top: env(safe-area-inset-top, 0px); height: 100vh; overflow: auto;
+}
+.brand { display: flex; align-items: center; gap: .6rem; margin-bottom: 1.2rem; }
+.brand svg { width: 34px; height: 34px; flex: none; }
+.brand b { display: block; font-size: 1.05rem; }
+.brand small { color: var(--ink-2); }
+.nav { display: flex; flex-direction: column; gap: .15rem; }
+.nav a {
+  color: var(--ink); text-decoration: none; padding: .5rem .65rem; border-radius: var(--radius);
+  border-left: 3px solid transparent;
+}
+.nav a:hover { background: var(--rock-3); }
+.nav a.active { background: var(--rock-3); border-left-color: var(--copper); }
+.side .snap { margin-top: 1.4rem; font-size: .85rem; color: var(--ink-2); }
+.side .snap select { width: 100%; margin-top: .3rem; }
+
+.main { padding: 1.4rem 1.8rem 3rem; min-width: 0; }
+.main > section { display: none; }
+.main > section.active { display: block; }
+
+.panel {
+  background: var(--rock-2); border: 1px solid var(--seam); border-radius: var(--radius-lg);
+  padding: 1rem 1.1rem; margin-bottom: 1rem;
+}
+.panel.accent { border-left: 4px solid var(--copper); }
+.row { display: flex; flex-wrap: wrap; gap: .75rem 1.2rem; align-items: flex-end; }
+.actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
+.muted { color: var(--ink-2); }
+.small { font-size: .85rem; }
+.ok { color: var(--mithril); }
+.warn { color: var(--amber); }
+.bad { color: var(--ember); }
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: .7rem; margin-bottom: 1rem; }
+.tile { background: var(--rock-2); border: 1px solid var(--seam); border-radius: var(--radius-lg); padding: .75rem .9rem; }
+.tile .v { font-size: 1.35rem; font-weight: 700; }
+.tile .k { color: var(--ink-2); font-size: .82rem; }
+
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: .4rem .55rem; border-bottom: 1px solid var(--seam); vertical-align: top; }
+th { color: var(--ink-2); font-weight: 600; }
+td.num, th.num { text-align: right; }
+tr.hl td { background: rgba(214,137,63,.08); }
+.tablewrap { overflow-x: auto; }
+.bar { height: 6px; background: var(--rock); border-radius: 3px; overflow: hidden; margin-top: .3rem; }
+.bar > i { display: block; height: 100%; background: var(--mithril); }
+.bar > i.over { background: var(--amber); }
+
+.drop {
+  border: 2px dashed var(--seam); border-radius: var(--radius-lg); padding: 1.2rem; text-align: center;
+  color: var(--ink-2); margin-bottom: .75rem;
+}
+.drop.hover { border-color: var(--copper); color: var(--ink); }
+.toast {
+  position: fixed; left: 50%; bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);
+  background: var(--rock-3); border: 1px solid var(--copper); padding: .6rem 1rem; border-radius: var(--radius);
+  opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+.toast.show { opacity: 1; }
+.empty { padding: 2rem 1rem; text-align: center; color: var(--ink-2); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; }
+.search { width: 100%; max-width: 420px; }
+.pill { display: inline-block; padding: .05rem .5rem; border-radius: 999px; background: var(--rock-3); font-size: .8rem; color: var(--ink-2); }
+
+@media (max-width: 800px) {
+  .layout { grid-template-columns: 1fr; }
+  .side { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--seam); }
+  .nav { flex-direction: row; flex-wrap: wrap; }
+  .nav a { border-left: 0; border-bottom: 3px solid transparent; }
+  .nav a.active { border-bottom-color: var(--copper); }
+  .main { padding: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
+
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="side">
+    <div class="brand">
+      <svg viewBox="0 0 34 34" aria-hidden="true"><path d="M17 2 L24 12 L21 32 L13 32 L10 12 Z" fill="#d6893f"/><path d="M17 2 L24 12 L17 15 L10 12 Z" fill="#f0a75c"/><path d="M13 32 L17 15 L21 32 Z" fill="#a8672c"/></svg>
+      <div><b>Obelisk Miner</b><small>planner</small></div>
+    </div>
+    <nav class="nav" aria-label="Sections">
+      <a href="#overview">Overview</a>
+      <a href="#bombs">Bombs</a>
+      <a href="#growth">Growth</a>
+      <a href="#stats">All stats</a>
+      <a href="#import">Import</a>
+      <a href="#about">About</a>
+    </nav>
+    <div class="snap">
+      <label for="snapPick">Viewing snapshot</label>
+      <select id="snapPick"></select>
+    </div>
+  </aside>
+  <main class="main">
+    <section id="view-import"></section>
+    <section id="view-overview"></section>
+    <section id="view-bombs"></section>
+    <section id="view-growth"></section>
+    <section id="view-stats"></section>
+    <section id="view-about"></section>
+  </main>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script>
+window.OM = window.OM || {}; window.OM.data = {"bombs": [{"key": "basic", "name": "Basic Bomb", "base": 30, "effect": "No special effect"}, {"key": "chain", "name": "Chain Bomb", "base": 60, "effect": "Fires multiple bombs"}, {"key": "plenty", "name": "Bomb of Plenty", "base": 110, "effect": "Marks ores to give more ores; chance to turn ores golden"}, {"key": "exp", "name": "Exp Bomb", "base": 120, "effect": "Marks ores to give more exp"}, {"key": "mega", "name": "MEGABOMB", "base": 120, "effect": "Marks ores to take more damage"}, {"key": "infinity", "name": "Infinity Bomb", "base": 160, "effect": "Increases damage multi per infinity bomb fired"}, {"key": "transmuter", "name": "Transmuter Bomb", "base": 250, "effect": "Marks ores to drop bars; chance to apply a Bomb of Plenty stack"}, {"key": "gem", "name": "Gem Bomb", "base": 315, "effect": "Chance to get a gem when fired"}, {"key": "cherry", "name": "Cherry Bomb", "base": 330, "effect": "Next bomb fired will not consume a charge; chance for triple charge"}, {"key": "battery", "name": "Battery Bomb", "base": 345, "effect": "Charges 2 random bombs; 0.1% chance to raise bomb capacity by 1"}, {"key": "d20", "name": "D20 Bomb", "base": 400, "effect": "5% chance to refill other bomb charges"}, {"key": "founders", "name": "Founder's Bomb", "base": 540, "effect": "10% chance to give 10 seconds of 2x game speed"}, {"key": "veinmorpher", "name": "Veinmorpher Bomb", "base": 570, "effect": "Chance to morph all ores to veins; chance to make all veins golden"}]};
+// Shared helpers. Everything hangs off window.OM so the app runs with plain
+// <script> tags (no build step, works on GitHub Pages and as a single file).
+window.OM = window.OM || {};
+
+(function (OM) {
+  const SUFFIX = ['', 'K', 'M', 'B', 'T', 'Qa', 'Qi', 'Sx', 'Sp', 'Oc', 'No', 'Dc'];
+
+  // Format a number the way the game roughly does: 1.23M, 4.56Oc, then 1.23e45.
+  OM.fmt = function (n, digits) {
+    if (n === null || n === undefined || Number.isNaN(n)) return '–';
+    if (typeof n === 'boolean') return n ? 'yes' : 'no';
+    if (typeof n !== 'number') return String(n);
+    const d = digits === undefined ? 2 : digits;
+    const abs = Math.abs(n);
+    if (abs === 0) return '0';
+    if (abs < 1000) {
+      if (Number.isInteger(n)) return String(n);
+      return abs < 0.01 ? n.toExponential(2) : n.toFixed(d);
+    }
+    const tier = Math.floor(Math.log10(abs) / 3);
+    if (tier < SUFFIX.length) {
+      return (n / Math.pow(10, tier * 3)).toFixed(d) + SUFFIX[tier];
+    }
+    return n.toExponential(d);
+  };
+
+  OM.pct = function (n, d) { return typeof n === 'number' ? n.toFixed(d === undefined ? 1 : d) + '%' : '–'; };
+
+  // Seconds -> "2d 3h 12m" style.
+  OM.dur = function (s) {
+    if (s === null || s === undefined || !isFinite(s)) return '–';
+    if (s < 0) return 'inactive';
+    if (s < 1) return (s * 1000).toFixed(0) + ' ms';
+    if (s < 60) return s.toFixed(1) + ' s';
+    const units = [['y', 31536000], ['d', 86400], ['h', 3600], ['m', 60]];
+    const parts = [];
+    let rem = s;
+    for (const [u, len] of units) {
+      const q = Math.floor(rem / len);
+      if (q > 0 || (parts.length && u !== 'y')) { parts.push(q + u); rem -= q * len; }
+      if (parts.length >= 3) break;
+    }
+    if (parts.length < 3 && rem >= 1 && parts.length) parts.push(Math.round(rem) + 's');
+    return parts.join(' ');
+  };
+
+  OM.el = function (tag, attrs, children) {
+    const e = document.createElement(tag);
+    if (attrs) for (const k in attrs) {
+      if (k === 'class') e.className = attrs[k];
+      else if (k === 'html') e.innerHTML = attrs[k];
+      else if (k.startsWith('on')) e.addEventListener(k.slice(2), attrs[k]);
+      else if (attrs[k] !== undefined && attrs[k] !== null) e.setAttribute(k, attrs[k]);
+    }
+    if (children !== undefined) {
+      (Array.isArray(children) ? children : [children]).forEach(c => {
+        if (c === null || c === undefined) return;
+        e.appendChild(typeof c === 'string' || typeof c === 'number' ? document.createTextNode(String(c)) : c);
+      });
+    }
+    return e;
+  };
+
+  OM.esc = function (s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); };
+
+  OM.table = function (headers, rows, opts) {
+    opts = opts || {};
+    const t = OM.el('table');
+    const thead = OM.el('thead');
+    const tr = OM.el('tr');
+    headers.forEach((h, i) => tr.appendChild(OM.el('th', { class: (opts.num || []).includes(i) ? 'num' : '' }, h)));
+    thead.appendChild(tr); t.appendChild(thead);
+    const tb = OM.el('tbody');
+    rows.forEach(r => {
+      const cells = Array.isArray(r) ? r : r.cells;
+      const row = OM.el('tr', { class: (!Array.isArray(r) && r.hl) ? 'hl' : '' });
+      cells.forEach((c, i) => row.appendChild(OM.el('td', { class: (opts.num || []).includes(i) ? 'num' : '' }, c)));
+      tb.appendChild(row);
+    });
+    t.appendChild(tb);
+    const wrap = OM.el('div', { class: 'tablewrap' }, t);
+    return wrap;
+  };
+
+  let toastTimer;
+  OM.toast = function (msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+  };
+
+  OM.download = function (name, text, type) {
+    const blob = new Blob([text], { type: type || 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = name; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  };
+
+  OM.localDT = function (ms) {
+    const d = new Date(ms);
+    const p = n => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+  };
+  // For <input type="datetime-local">
+  OM.inputDT = function (ms) { return OM.localDT(ms).replace(' ', 'T'); };
+})(window.OM);
+
+// Snapshot store. Each snapshot = { id, at (ms), version, gameTime, stats, note }.
+// Kept in localStorage under one key. Nothing leaves the browser.
+(function (OM) {
+  const KEY = 'om.snapshots.v1';
+  let cache = null;
+
+  function load() {
+    if (cache) return cache;
+    try {
+      const raw = localStorage.getItem(KEY);
+      cache = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(cache)) cache = [];
+    } catch (e) { cache = []; }
+    cache.sort((a, b) => a.at - b.at);
+    return cache;
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(cache)); return true; }
+    catch (e) { OM.toast('Could not save: browser storage is full or blocked.'); return false; }
+  }
+
+  OM.store = {
+    all() { return load().slice(); },
+    get(id) { return load().find(s => s.id === id) || null; },
+    latest() { const a = load(); return a.length ? a[a.length - 1] : null; },
+    add(snap) {
+      load();
+      snap.id = snap.id || ('s' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6));
+      cache.push(snap); cache.sort((a, b) => a.at - b.at);
+      save(); return snap;
+    },
+    update(id, patch) {
+      const s = OM.store.get(id); if (!s) return null;
+      Object.assign(s, patch); cache.sort((a, b) => a.at - b.at); save(); return s;
+    },
+    remove(id) { load(); cache = cache.filter(s => s.id !== id); save(); },
+    clear() { cache = []; save(); },
+    exportJSON() { return JSON.stringify({ app: 'ObeliskMiner', exported: Date.now(), snapshots: load() }, null, 2); },
+    importJSON(text) {
+      const data = JSON.parse(text);
+      const list = Array.isArray(data) ? data : data.snapshots;
+      if (!Array.isArray(list)) throw new Error('No snapshots array found in that file.');
+      load();
+      let added = 0;
+      for (const s of list) {
+        if (!s || !s.stats || !s.at) continue;
+        if (cache.some(x => x.id === s.id || (x.at === s.at && x.version === s.version))) continue;
+        cache.push(s); added++;
+      }
+      cache.sort((a, b) => a.at - b.at); save();
+      return added;
+    }
+  };
+})(window.OM);
+
+// Parse the game's EXPORTSTATS JSON and derive analysis from it.
+(function (OM) {
+  // Parse the pasted text. Tolerates surrounding whitespace and a bare stats object.
+  OM.parseExport = function (text) {
+    let data;
+    try { data = JSON.parse(text.trim()); }
+    catch (e) { throw new Error('That is not valid JSON. Copy the whole export, including the outer braces.'); }
+    if (data && data.stats && typeof data.stats === 'object') {
+      return { version: String(data.version || '?'), gameTime: Number(data.time) || null, stats: data.stats };
+    }
+    if (data && typeof data === 'object' && 'pickaxe_damage' in data) {
+      return { version: '?', gameTime: null, stats: data };
+    }
+    throw new Error('JSON parsed, but it does not look like an Idle Obelisk Miner export (no "stats" object).');
+  };
+
+  // Classify a stat key by its name. Good enough for grouping and formatting.
+  OM.kindOf = function (key, value) {
+    if (Array.isArray(value)) return 'array';
+    if (typeof value === 'boolean' || key.startsWith('is_')) return 'flag';
+    if (/_chance$/.test(key) || /_chance_/.test(key)) return 'chance';
+    if (/_multi(plier)?$/.test(key) || /_multi_/.test(key)) return 'multi';
+    if (/_percent$/.test(key)) return 'percent';
+    if (/(_level|_grade|_count|_cap|_floor|_caps?_increase|_unlocked|_eaten|_caught|_used|_progress|_rewarded|_reduction)$/.test(key)) return 'level';
+    if (/_seconds$/.test(key) || /_timer_add$/.test(key)) return 'seconds';
+    return 'value';
+  };
+
+  OM.groupOf = function (key) {
+    const first = key.split('_')[0];
+    const map = {
+      pickaxe: 'Pickaxe', bomb: 'Bombs', drone: 'Drones', drones: 'Drones', is: 'Drones',
+      fishing: 'Fishing', star: 'Stars', stars: 'Stars', super: 'Stars', lootfrog: 'Lootfrogs', lootfrogs: 'Lootfrogs',
+      lootbug: 'Lootbugs', contract: 'Contracts', contracts: 'Contracts', craft: 'Crafting', bar: 'Crafting',
+      vein: 'Veins', veinseeker: 'Drones', ore: 'Ores', ores: 'Ores', golden: 'Floor modifiers', rainbow: 'Floor modifiers',
+      galactic: 'Floor modifiers', prismatic: 'Floor modifiers', gleaming: 'Floor modifiers', all: 'Global multipliers',
+      void: 'Void portals', coal: 'Coal', elixir: 'Drones', gem: 'Gems', obelisk: 'Obelisk', freebie: 'Freebies',
+      stonks: 'Stonks', ultra: 'Stonks', pet: 'Pets', statue: 'Statues', relics: 'Relics', idols: 'Archaeology',
+      skill: 'Skill tree', challenge: 'Challenges', workshop: 'Workshop', regular: 'Upgrades', item: 'Items',
+      chest: 'Fishing', midas: 'Drones', chain: 'Drones', bear: 'Drones', minotaur: 'Drones', prism: 'Drones',
+      angler: 'Drones', frogger: 'Drones', starburst: 'Drones', infernal: 'Cards', experience: 'Experience',
+      xp: 'Experience', prestige: 'Prestige', artifact: 'Prestige', game: 'Global multipliers', multi: 'Ores',
+      novagiant: 'Stars', floor: 'Floors', current: 'Floors', worlds: 'Floors', world: 'Floors', black: 'Black hole',
+      free: 'Crafting', double: 'Crafting', triple: 'Crafting', candy: 'Items', steak: 'Items', pizzas: 'Items',
+      stickers: 'Stickers'
+    };
+    if (key === 'lootbug_and_elixir_uptime_array') return 'Items';
+    return map[first] || 'Other';
+  };
+
+  OM.label = function (key) {
+    return key.replace(/_array$/, '').replace(/^is_/, '').replace(/_/g, ' ')
+      .replace(/multi/g, 'multiplier').replace(/percent/g, '%');
+  };
+
+  // Chance stats where values above 100 are known to still do something
+  // (e.g. one guaranteed extra rock plus a chance of another).
+  const OVERFLOW_OK = new Set(['multi_rock_chance']);
+  // Stats that are not really chances even though named so (spawn rates, etc).
+  const NOT_CHANCE = new Set(['lootbug_triple_chance']);
+
+  const CRIT_TIERS = ['crit', 'super_crit', 'ultra_crit', 'omega_crit'];
+
+  function critChain(stats, prefix) {
+    const tiers = CRIT_TIERS.map(t => ({
+      tier: t.replace('_', ' '),
+      chance: Number(stats[`${prefix}_${t}_chance`]) || 0,
+      dmg: Number(stats[`${prefix}_${t}_damage`]) || 1
+    }));
+    // Model: a hit rolls crit; only a crit can roll super crit; only a super crit
+    // can roll ultra; only an ultra can roll omega. Damage multipliers stack.
+    // Expected multiplier is computed from the last tier backwards.
+    let expected = 1, p = 1, total = 1;
+    for (let i = tiers.length - 1; i >= 0; i--) {
+      const c = Math.min(tiers[i].chance, 100) / 100;
+      expected = (1 - c) + c * tiers[i].dmg * expected;
+    }
+    tiers.forEach(t => { p *= Math.min(t.chance, 100) / 100; total *= t.dmg; });
+    return { tiers, expected, allTiersMulti: total, guaranteed: tiers.every(t => t.chance >= 100), reachOmega: p };
+  }
+
+  // Derive everything the overview shows from a snapshot's stats.
+  OM.analyze = function (stats) {
+    const out = {};
+    out.pickaxe = critChain(stats, 'pickaxe');
+    out.bomb = critChain(stats, 'bomb');
+
+    // Overflow / near-cap chances
+    out.overflow = []; out.nearCap = [];
+    for (const k in stats) {
+      const v = stats[k];
+      if (typeof v !== 'number') continue;
+      if (OM.kindOf(k, v) !== 'chance' || NOT_CHANCE.has(k)) continue;
+      if (v > 100 && !OVERFLOW_OK.has(k)) out.overflow.push({ key: k, value: v, wasted: v - 100 });
+      else if (v >= 85 && v <= 100) out.nearCap.push({ key: k, value: v });
+    }
+    out.overflow.sort((a, b) => b.wasted - a.wasted);
+    out.nearCap.sort((a, b) => b.value - a.value);
+
+    // Buff timers (seconds remaining). Index -> name mapping is unknown; shown by index.
+    out.buffs = [];
+    ['item_uptime_array', 'lootbug_and_elixir_uptime_array'].forEach(arr => {
+      (stats[arr] || []).forEach((s, i) => {
+        if (typeof s === 'number' && s > 0) out.buffs.push({ arr, i, seconds: s });
+      });
+    });
+    out.buffs.sort((a, b) => a.seconds - b.seconds);
+
+    // Drones: equipped vs fuel grade
+    const droneNames = ['bear', 'chain', 'midas', 'frogger', 'veinseeker', 'starburst', 'elixir', 'void', 'angler', 'prism', 'minotaur', 'basic'];
+    out.drones = droneNames.map(n => ({
+      name: n,
+      equipped: !!stats[`is_drone_${n}_equipped`],
+      fueled: !!stats[`is_drone_${n}_equipped_and_fueled`],
+      grade: typeof stats[`${n}_fuel_grade`] === 'number' ? stats[`${n}_fuel_grade`] : null
+    })).filter(d => d.grade !== null || d.equipped);
+    out.drones.sort((a, b) => (b.grade || 0) - (a.grade || 0));
+
+    // Bomb recharge table
+    out.bombs = OM.bombTable(stats);
+    return out;
+  };
+
+  OM.bombTable = function (stats, opts) {
+    opts = opts || {};
+    const speed = Number(stats.bomb_recharge_speed) || 1;
+    const gs = opts.useGameSpeed ? (Number(stats.game_speed_multi) || 1) : 1;
+    const extra = Number(opts.extraMulti) || 1;
+    const list = (OM.data && OM.data.bombs) ? OM.data.bombs : [];
+    return list.map(b => {
+      const t = b.base / speed / gs / extra;
+      return { key: b.key, name: b.name, base: b.base, effect: b.effect, seconds: t, perSec: 1 / t, perMin: 60 / t };
+    });
+  };
+
+  // Growth between two snapshots. Returns rows for every numeric scalar stat.
+  OM.growth = function (a, b) {
+    const dtDays = Math.max((b.at - a.at) / 86400000, 1e-9);
+    const rows = [];
+    const keys = new Set([...Object.keys(a.stats), ...Object.keys(b.stats)]);
+    keys.forEach(k => {
+      const va = a.stats[k], vb = b.stats[k];
+      if (typeof va !== 'number' || typeof vb !== 'number') return;
+      if (va === vb) return;
+      const delta = vb - va;
+      const ratio = va > 0 && vb > 0 ? vb / va : null;
+      // Daily geometric growth (multiplicative stats) and daily linear growth
+      const dailyMult = ratio ? Math.pow(ratio, 1 / dtDays) : null;
+      rows.push({ key: k, from: va, to: vb, delta, perDay: delta / dtDays, ratio, dailyMult });
+    });
+    rows.sort((x, y) => Math.abs((y.ratio || 1) - 1) - Math.abs((x.ratio || 1) - 1));
+    return { dtDays, rows };
+  };
+
+  // Time (days) to reach target under linear or exponential growth. Returns null when unreachable.
+  OM.timeToTarget = function (from, to, target, dtDays) {
+    if (target <= to) return { days: 0 };
+    const lin = to > from ? (target - to) / ((to - from) / dtDays) : null;
+    const exp = (from > 0 && to > from) ? Math.log(target / to) / (Math.log(to / from) / dtDays) : null;
+    return { linear: lin, exponential: exp };
+  };
+})(window.OM);
+
+// Each view renders into its section element from the current snapshot.
+(function (OM) {
+  const el = OM.el, fmt = OM.fmt, pct = OM.pct, dur = OM.dur;
+  OM.views = {};
+
+  // ---------- Import ----------
+  OM.views.import = function (root) {
+    root.innerHTML = '';
+    const has = OM.store.all().length > 0;
+    root.appendChild(el('h1', {}, has ? 'Add a snapshot' : 'Paste your first export'));
+    root.appendChild(el('p', { class: 'muted' },
+      'In the game, use the EXPORTSTATS code to copy your stats, then paste the JSON below. Each paste is stored as a snapshot in this browser so growth can be measured over time.'));
+
+    const ta = el('textarea', { placeholder: '{ "version": "v2.2.25", "time": ..., "stats": { ... } }', 'aria-label': 'Export JSON' });
+    const drop = el('div', { class: 'drop' }, 'Or drop an exported .json / .txt file here');
+    const when = el('input', { type: 'datetime-local', value: OM.inputDT(Date.now()) });
+    const note = el('input', { type: 'text', placeholder: 'e.g. before prestige, after event', style: 'width:18rem' });
+    const status = el('p', { class: 'small muted' });
+
+    drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('hover'); });
+    drop.addEventListener('dragleave', () => drop.classList.remove('hover'));
+    drop.addEventListener('drop', e => {
+      e.preventDefault(); drop.classList.remove('hover');
+      const f = e.dataTransfer.files[0]; if (!f) return;
+      f.text().then(t => { ta.value = t; preview(); });
+    });
+    ta.addEventListener('input', preview);
+
+    function preview() {
+      try {
+        const p = OM.parseExport(ta.value);
+        const n = Object.keys(p.stats).length;
+        status.className = 'small ok';
+        status.textContent = `Looks good: version ${p.version}, ${n} stats, obelisk ${fmt(p.stats.obelisk_level)}, floor ${fmt(p.stats.current_floor)}.`;
+      } catch (e) {
+        status.className = 'small ' + (ta.value.trim() ? 'bad' : 'muted');
+        status.textContent = ta.value.trim() ? e.message : '';
+      }
+    }
+
+    const save = el('button', { class: 'primary', onclick: () => {
+      let p;
+      try { p = OM.parseExport(ta.value); } catch (e) { OM.toast(e.message); return; }
+      const at = when.value ? new Date(when.value).getTime() : Date.now();
+      const snap = OM.store.add({ at, version: p.version, gameTime: p.gameTime, stats: p.stats, note: note.value.trim() });
+      OM.setCurrent(snap.id);
+      OM.toast('Snapshot saved');
+      location.hash = '#overview';
+    } }, 'Save snapshot');
+
+    root.appendChild(el('div', { class: 'panel accent' }, [
+      drop, ta, status,
+      el('div', { class: 'row', style: 'margin-top:.75rem' }, [
+        el('label', {}, ['Taken at', when]),
+        el('label', {}, ['Note (optional)', note]),
+        save
+      ])
+    ]));
+
+    // Snapshot management
+    const snaps = OM.store.all();
+    const panel = el('div', { class: 'panel' }, el('h2', {}, `Saved snapshots (${snaps.length})`));
+    if (!snaps.length) {
+      panel.appendChild(el('div', { class: 'empty' }, 'No snapshots yet. Paste an export above to start.'));
+    } else {
+      panel.appendChild(OM.table(['Taken', 'Version', 'Obelisk', 'Floor', 'Pickaxe dmg', 'Note', ''],
+        snaps.map(s => [
+          OM.localDT(s.at), s.version, fmt(s.stats.obelisk_level), fmt(s.stats.current_floor), fmt(s.stats.pickaxe_damage), s.note || '',
+          el('span', {}, [
+            el('button', { class: 'small', onclick: () => { OM.setCurrent(s.id); location.hash = '#overview'; } }, 'Open'), ' ',
+            el('button', { class: 'small danger', onclick: () => { if (confirm('Delete this snapshot?')) { OM.store.remove(s.id); OM.render(); } } }, 'Delete')
+          ])
+        ]), { num: [2, 3, 4] }));
+    }
+    const file = el('input', { type: 'file', accept: '.json,application/json', style: 'display:none' });
+    file.addEventListener('change', () => {
+      const f = file.files[0]; if (!f) return;
+      f.text().then(t => { try { const n = OM.store.importJSON(t); OM.toast(`Imported ${n} snapshot(s)`); OM.render(); } catch (e) { OM.toast(e.message); } });
+    });
+    panel.appendChild(el('div', { class: 'actions' }, [
+      el('button', { onclick: () => OM.download('obelisk-snapshots.json', OM.store.exportJSON()) }, 'Back up all snapshots'),
+      el('button', { onclick: () => file.click() }, 'Restore from backup'),
+      el('button', { class: 'danger', onclick: () => { if (confirm('Delete every snapshot in this browser?')) { OM.store.clear(); OM.setCurrent(null); OM.render(); } } }, 'Delete all'),
+      file
+    ]));
+    root.appendChild(panel);
+  };
+
+  // ---------- Overview ----------
+  OM.views.overview = function (root, snap) {
+    root.innerHTML = '';
+    if (!snap) { root.appendChild(needSnap()); return; }
+    const s = snap.stats, a = OM.analyze(s);
+    root.appendChild(el('h1', {}, 'Overview'));
+    root.appendChild(el('p', { class: 'muted small' }, `Snapshot from ${OM.localDT(snap.at)}, game version ${snap.version}${snap.note ? ', ' + snap.note : ''}.`));
+
+    const tiles = [
+      ['Obelisk level', fmt(s.obelisk_level)], ['Current floor', fmt(s.current_floor)], ['Worlds unlocked', fmt(s.worlds_unlocked)],
+      ['Pickaxe damage', fmt(s.pickaxe_damage)], ['Bomb damage', fmt(s.bomb_damage)], ['Game speed', fmt(s.game_speed_multi) + 'x'],
+      ['Pickaxe crit multiplier', fmt(a.pickaxe.expected, 0) + 'x'], ['Bomb crit multiplier', fmt(a.bomb.expected, 0) + 'x'],
+      ['Bomb recharge speed', fmt(s.bomb_recharge_speed) + 'x'], ['Bomb capacity', fmt(s.bomb_capacity)],
+      ['Ore sell price multi', fmt(s.ore_sell_price_multi)], ['Prestige point multi', fmt(s.prestige_point_multi)]
+    ];
+    root.appendChild(el('div', { class: 'tiles' }, tiles.map(t => el('div', { class: 'tile' }, [el('div', { class: 'v' }, t[1]), el('div', { class: 'k' }, t[0])]))));
+
+    const grid = el('div', { class: 'grid2' });
+
+    // Crit chains
+    ['pickaxe', 'bomb'].forEach(p => {
+      const c = a[p];
+      const panel = el('div', { class: 'panel' }, el('h2', {}, (p === 'pickaxe' ? 'Pickaxe' : 'Bomb') + ' crit chain'));
+      panel.appendChild(OM.table(['Tier', 'Chance', 'Damage', 'Status'], c.tiers.map(t => [
+        t.tier, pct(t.chance), fmt(t.dmg) + 'x',
+        t.chance >= 100 ? el('span', { class: t.chance > 100 ? 'warn' : 'ok' }, t.chance > 100 ? `guaranteed, ${pct(t.chance - 100)} likely wasted` : 'guaranteed') : el('span', {}, 'rolls')
+      ]), { num: [1, 2] }));
+      panel.appendChild(el('p', { class: 'small muted', style: 'margin-top:.6rem' },
+        `Expected multiplier per hit: ${fmt(c.expected, 0)}x. ` + (c.guaranteed ? 'Every hit is an omega crit; crit damage upgrades are where the value is now.' : `Chance a hit reaches omega: ${pct(c.reachOmega * 100)}.`)));
+      grid.appendChild(panel);
+    });
+
+    // Overflow / near cap
+    const ov = el('div', { class: 'panel' }, el('h2', {}, 'Chances over 100%'));
+    if (a.overflow.length) {
+      ov.appendChild(el('p', { class: 'small muted' }, 'Unless the game converts overflow, points above 100% do nothing. Check before buying more.'));
+      ov.appendChild(OM.table(['Stat', 'Value', 'Over by'], a.overflow.map(o => [OM.label(o.key), pct(o.value), pct(o.wasted)]), { num: [1, 2] }));
+    } else ov.appendChild(el('p', { class: 'small muted' }, 'None.'));
+    if (a.nearCap.length) {
+      ov.appendChild(el('h3', { style: 'margin-top:.8rem' }, 'Close to 100%'));
+      ov.appendChild(OM.table(['Stat', 'Value'], a.nearCap.map(o => [OM.label(o.key), pct(o.value)]), { num: [1] }));
+    }
+    grid.appendChild(ov);
+
+    // Buff timers
+    const bf = el('div', { class: 'panel' }, el('h2', {}, 'Buff time remaining'));
+    bf.appendChild(el('p', { class: 'small muted' }, 'Banked buff time in seconds, lowest first. The export does not name each slot, so match the index in game.'));
+    bf.appendChild(OM.table(['Source', 'Slot', 'Remaining'], a.buffs.slice(0, 12).map(b => ({
+      cells: [b.arr === 'item_uptime_array' ? 'Items' : 'Lootbug / elixir', '#' + b.i, el('span', { class: b.seconds < 86400 ? 'bad' : b.seconds < 7 * 86400 ? 'warn' : '' }, dur(b.seconds))],
+      hl: b.seconds < 86400
+    })), { num: [1] }));
+    grid.appendChild(bf);
+
+    // Drones
+    const dr = el('div', { class: 'panel' }, el('h2', {}, 'Drones by fuel grade'));
+    dr.appendChild(OM.table(['Drone', 'Fuel grade', 'Equipped', 'Fueled'], a.drones.map(d => ({
+      cells: [d.name.charAt(0).toUpperCase() + d.name.slice(1), fmt(d.grade), d.equipped ? el('span', { class: 'ok' }, 'yes') : el('span', { class: 'muted' }, 'no'), d.fueled ? 'yes' : el('span', { class: 'muted' }, 'no')],
+      hl: !d.equipped && d.grade !== null && a.drones.filter(x => x.equipped).some(x => x.grade < d.grade)
+    })), { num: [1] }));
+    dr.appendChild(el('p', { class: 'small muted', style: 'margin-top:.6rem' }, 'Highlighted: not equipped but a higher grade than something you are running.'));
+    grid.appendChild(dr);
+
+    root.appendChild(grid);
+  };
+
+  // ---------- Bombs ----------
+  OM.views.bombs = function (root, snap) {
+    root.innerHTML = '';
+    if (!snap) { root.appendChild(needSnap()); return; }
+    const s = snap.stats;
+    root.appendChild(el('h1', {}, 'Bomb recharge'));
+    root.appendChild(el('p', { class: 'muted' }, `Base cooldown divided by your recharge speed (${fmt(s.bomb_recharge_speed)}x). Game speed (${fmt(s.game_speed_multi)}x) and an extra multiplier can be layered on to match what you observe in game.`));
+
+    const useGS = el('input', { type: 'checkbox' });
+    const extra = el('input', { type: 'number', value: '1', step: '0.1', min: '0.01' });
+    const tableHost = el('div');
+    const bombSel = el('select');
+    (OM.data.bombs || []).forEach(b => bombSel.appendChild(el('option', { value: b.key, selected: b.key === 'cherry' ? '' : null }, b.name)));
+    const cur = el('input', { type: 'number', value: '0', min: '0' });
+    const target = el('input', { type: 'number', value: String(Math.round(s.bomb_capacity || 0)), min: '0' });
+    const perRefresh = el('input', { type: 'number', value: '1', min: '1', step: '1' });
+    const observed = el('input', { type: 'number', placeholder: 'optional', step: '0.001', min: '0' });
+    const fillOut = el('div', { class: 'panel accent' });
+
+    function render() {
+      const rows = OM.bombTable(s, { useGameSpeed: useGS.checked, extraMulti: Number(extra.value) || 1 });
+      tableHost.innerHTML = '';
+      tableHost.appendChild(OM.table(['Bomb', 'Base (s)', 'Seconds per charge', 'Per second', 'Per minute', 'Effect'],
+        rows.map(r => ({ cells: [r.name, r.base, r.seconds < 1 ? r.seconds.toFixed(3) : r.seconds.toFixed(2), fmt(r.perSec), fmt(r.perMin), el('span', { class: 'small muted' }, r.effect)], hl: r.key === bombSel.value })),
+        { num: [1, 2, 3, 4] }));
+
+      const b = rows.find(r => r.key === bombSel.value);
+      const refresh = Number(observed.value) > 0 ? Number(observed.value) : b.seconds;
+      const rate = (Number(perRefresh.value) || 1) / refresh;
+      const need = Math.max(0, (Number(target.value) || 0) - (Number(cur.value) || 0));
+      const secs = rate > 0 ? need / rate : Infinity;
+      const free = Number(s.bomb_free_chance) || 0;
+      fillOut.innerHTML = '';
+      fillOut.appendChild(el('h2', {}, `${b.name}: ${dur(secs)} to fill`));
+      fillOut.appendChild(el('p', {}, `${fmt(need, 0)} charges needed at ${fmt(rate)} per second (${refresh.toFixed(3)} s per refresh × ${perRefresh.value} per refresh). Done at about ${OM.localDT(Date.now() + secs * 1000)} if you start now.`));
+      if (free > 0) fillOut.appendChild(el('p', { class: 'small muted' }, `Your ${pct(free, 0)} free-bomb chance stretches spending by about ${(100 / (100 - Math.min(free, 99))).toFixed(2)}x, so those charges are worth roughly ${fmt(need * 100 / (100 - Math.min(free, 99)), 0)} uses.`));
+    }
+    [useGS, extra, bombSel, cur, target, perRefresh, observed].forEach(i => i.addEventListener('input', render));
+
+    root.appendChild(el('div', { class: 'panel' }, [
+      el('div', { class: 'row' }, [
+        el('label', {}, [el('span', {}, [useGS, ' Apply game speed']), el('span', { class: 'small' }, 'Test in game: if Cherry is near the game-speed number, keep this on.')]),
+        el('label', {}, ['Extra multiplier (workshop, buffs)', extra])
+      ]),
+      el('div', { style: 'margin-top:.8rem' }, tableHost)
+    ]));
+    root.appendChild(el('h2', {}, 'Time to fill'));
+    root.appendChild(el('div', { class: 'panel' }, el('div', { class: 'row' }, [
+      el('label', {}, ['Bomb', bombSel]), el('label', {}, ['Current charges', cur]), el('label', {}, ['Target charges', target]),
+      el('label', {}, ['Charges per refresh', perRefresh]), el('label', {}, ['Observed refresh (s)', observed])
+    ])));
+    root.appendChild(fillOut);
+    render();
+  };
+
+  // ---------- Growth ----------
+  OM.views.growth = function (root) {
+    root.innerHTML = '';
+    const snaps = OM.store.all();
+    root.appendChild(el('h1', {}, 'Growth between snapshots'));
+    if (snaps.length < 2) {
+      root.appendChild(el('div', { class: 'panel' }, el('div', { class: 'empty' }, 'Save at least two snapshots taken at different times, then come back here to see real growth rates and projections.')));
+      return;
+    }
+    const selA = el('select'), selB = el('select');
+    snaps.forEach((s, i) => {
+      selA.appendChild(el('option', { value: s.id, selected: i === 0 ? '' : null }, OM.localDT(s.at) + (s.note ? ' – ' + s.note : '')));
+      selB.appendChild(el('option', { value: s.id, selected: i === snaps.length - 1 ? '' : null }, OM.localDT(s.at) + (s.note ? ' – ' + s.note : '')));
+    });
+    const search = el('input', { class: 'search', type: 'search', placeholder: 'Filter stats' });
+    const statSel = el('select'); const targetIn = el('input', { type: 'number', placeholder: 'target value', step: 'any' });
+    const proj = el('div', { class: 'panel accent' });
+    const host = el('div');
+
+    function render() {
+      const a = OM.store.get(selA.value), b = OM.store.get(selB.value);
+      host.innerHTML = '';
+      if (!a || !b || a.at >= b.at) { host.appendChild(el('p', { class: 'bad' }, 'Pick an earlier snapshot on the left and a later one on the right.')); return; }
+      const g = OM.growth(a, b);
+      const q = search.value.trim().toLowerCase();
+      const rows = g.rows.filter(r => !q || r.key.includes(q) || OM.label(r.key).includes(q));
+      host.appendChild(el('p', { class: 'muted small' }, `${g.dtDays.toFixed(2)} days apart. ${g.rows.length} stats changed. Sorted by largest relative change.`));
+      host.appendChild(OM.table(['Stat', 'From', 'To', 'Change', 'Per day', 'Daily growth'],
+        rows.slice(0, 200).map(r => [OM.label(r.key), fmt(r.from), fmt(r.to), (r.delta > 0 ? '+' : '') + fmt(r.delta), fmt(r.perDay), r.dailyMult ? ((r.dailyMult - 1) * 100).toFixed(2) + '%' : '–']),
+        { num: [1, 2, 3, 4, 5] }));
+      // projection selector
+      const prev = statSel.value;
+      statSel.innerHTML = '';
+      g.rows.forEach(r => statSel.appendChild(el('option', { value: r.key }, OM.label(r.key))));
+      if (prev && g.rows.some(r => r.key === prev)) statSel.value = prev;
+      project();
+    }
+    function project() {
+      const a = OM.store.get(selA.value), b = OM.store.get(selB.value);
+      proj.innerHTML = '';
+      if (!a || !b || a.at >= b.at) return;
+      const k = statSel.value; if (!k) return;
+      const from = a.stats[k], to = b.stats[k], dtDays = (b.at - a.at) / 86400000;
+      const target = Number(targetIn.value);
+      proj.appendChild(el('h2', {}, `Projection: ${OM.label(k)}`));
+      if (!target) { proj.appendChild(el('p', { class: 'muted' }, `Went from ${fmt(from)} to ${fmt(to)} in ${dtDays.toFixed(2)} days. Enter a target to estimate when you reach it.`)); return; }
+      const t = OM.timeToTarget(from, to, target, dtDays);
+      if (t.days === 0) { proj.appendChild(el('p', { class: 'ok' }, 'Already there.')); return; }
+      const line = (label, d) => d === null || !isFinite(d) || d < 0 ? el('p', {}, `${label}: not reachable on this trend.`) : el('p', {}, `${label}: about ${dur(d * 86400)} (around ${OM.localDT(b.at + d * 86400000)}).`);
+      proj.appendChild(line('If growth stays linear', t.linear));
+      proj.appendChild(line('If growth stays exponential', t.exponential));
+      proj.appendChild(el('p', { class: 'small muted' }, 'Idle games are usually between the two: exponential in bursts, linear while you wait on a wall. Treat these as a range.'));
+    }
+    [selA, selB, search].forEach(i => i.addEventListener('input', render));
+    [statSel, targetIn].forEach(i => i.addEventListener('input', project));
+    root.appendChild(el('div', { class: 'panel' }, el('div', { class: 'row' }, [el('label', {}, ['Earlier', selA]), el('label', {}, ['Later', selB]), el('label', {}, ['Filter', search])])));
+    root.appendChild(el('div', { class: 'panel' }, el('div', { class: 'row' }, [el('label', {}, ['Stat', statSel]), el('label', {}, ['Target', targetIn])])));
+    root.appendChild(proj);
+    root.appendChild(el('div', { class: 'panel' }, host));
+    render();
+  };
+
+  // ---------- Stats explorer ----------
+  OM.views.stats = function (root, snap) {
+    root.innerHTML = '';
+    if (!snap) { root.appendChild(needSnap()); return; }
+    const s = snap.stats;
+    root.appendChild(el('h1', {}, 'All stats'));
+    const search = el('input', { class: 'search', type: 'search', placeholder: 'Search by name, e.g. fishing, crit, golden' });
+    const host = el('div');
+    function render() {
+      const q = search.value.trim().toLowerCase();
+      const groups = {};
+      Object.keys(s).sort().forEach(k => {
+        if (q && !k.includes(q) && !OM.groupOf(k).toLowerCase().includes(q)) return;
+        (groups[OM.groupOf(k)] = groups[OM.groupOf(k)] || []).push(k);
+      });
+      host.innerHTML = '';
+      Object.keys(groups).sort().forEach(gname => {
+        const panel = el('div', { class: 'panel' }, el('h2', {}, gname));
+        panel.appendChild(OM.table(['Stat', 'Kind', 'Value'], groups[gname].map(k => {
+          const v = s[k], kind = OM.kindOf(k, v);
+          let disp;
+          if (kind === 'array') {
+            disp = el('div', { class: 'small' }, [el('span', { class: 'pill' }, v.length + ' entries'), ' ', v.map((x, i) => `${i}:${typeof x === 'number' ? fmt(x) : x}`).join('  ')]);
+          } else if (kind === 'chance') disp = el('span', { class: v > 100 ? 'warn' : '' }, pct(v));
+          else if (kind === 'multi') disp = fmt(v) + 'x';
+          else if (kind === 'percent') disp = pct(v, 0);
+          else disp = fmt(v);
+          return [el('span', { title: k }, OM.label(k)), el('span', { class: 'pill' }, kind), disp];
+        })));
+        host.appendChild(panel);
+      });
+      if (!Object.keys(groups).length) host.appendChild(el('div', { class: 'empty' }, 'Nothing matches.'));
+    }
+    search.addEventListener('input', render);
+    root.appendChild(el('div', { class: 'panel' }, search));
+    root.appendChild(host);
+    render();
+  };
+
+  // ---------- About ----------
+  OM.views.about = function (root) {
+    root.innerHTML = '';
+    root.appendChild(el('h1', {}, 'About'));
+    root.appendChild(el('div', { class: 'panel' }, [
+      el('p', {}, 'A planning tool for Idle Obelisk Miner. Paste your EXPORTSTATS JSON to see where your stats stand, how fast they are growing, and how long things will take.'),
+      el('p', {}, 'Everything stays in your browser. There is no server and no account. Use "Back up all snapshots" on the Import page to keep a copy.'),
+      el('h3', {}, 'Formula sources'),
+      el('p', {}, 'Bomb base cooldowns and the recharge formula come from the community Obelisk Total Resources Calculator. The full extracted formula reference for all community calculators lives in the repository under docs/formulas.'),
+      el('h3', {}, 'Known assumptions'),
+      el('p', {}, 'Crit tiers are modelled as nested rolls (only a crit can super crit, and so on). Chances above 100% are flagged as wasted unless the game is known to convert overflow. Buff timer arrays are shown by index because the export does not name the slots.'),
+      el('p', { class: 'small muted' }, 'Idle Obelisk Miner is made by Checkbox Entertainment. This tool is a fan project and is not affiliated with them.')
+    ]));
+  };
+
+  function needSnap() {
+    return el('div', { class: 'panel' }, el('div', { class: 'empty' }, [
+      'No snapshot selected. ', el('a', { href: '#import' }, 'Paste an export'), ' to get started.'
+    ]));
+  }
+})(window.OM);
+
+// Routing and state. Sections are keyed by hash: #import, #overview, #bombs, #growth, #stats, #about
+(function (OM) {
+  const CUR = 'om.current';
+  OM.data = OM.data || {};
+
+  OM.setCurrent = function (id) {
+    try { id ? localStorage.setItem(CUR, id) : localStorage.removeItem(CUR); } catch (e) { /* ignore */ }
+  };
+  OM.current = function () {
+    let id = null;
+    try { id = localStorage.getItem(CUR); } catch (e) { /* ignore */ }
+    return (id && OM.store.get(id)) || OM.store.latest();
+  };
+
+  const ROUTES = ['import', 'overview', 'bombs', 'growth', 'stats', 'about'];
+
+  OM.render = function () {
+    let route = (location.hash || '').replace('#', '');
+    if (!ROUTES.includes(route)) route = OM.store.all().length ? 'overview' : 'import';
+    document.querySelectorAll('.nav a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + route));
+    document.querySelectorAll('.main > section').forEach(sec => sec.classList.toggle('active', sec.id === 'view-' + route));
+    const snap = OM.current();
+    OM.views[route](document.getElementById('view-' + route), snap);
+
+    // Sidebar snapshot picker
+    const sel = document.getElementById('snapPick');
+    sel.innerHTML = '';
+    const all = OM.store.all();
+    if (!all.length) sel.appendChild(OM.el('option', {}, 'none yet'));
+    all.slice().reverse().forEach(s => sel.appendChild(OM.el('option', { value: s.id, selected: snap && s.id === snap.id ? '' : null }, OM.localDT(s.at) + (s.note ? ' – ' + s.note : ''))));
+    sel.disabled = !all.length;
+  };
+
+  function loadData() {
+    // bombs.json is inlined when built as a single file; otherwise fetch it.
+    if (OM.data.bombs) return Promise.resolve();
+    return fetch('data/bombs.json').then(r => r.json()).then(d => { OM.data.bombs = d.bombs; }).catch(() => { OM.data.bombs = []; OM.toast('Could not load data/bombs.json'); });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('snapPick').addEventListener('change', e => { OM.setCurrent(e.target.value); OM.render(); });
+    window.addEventListener('hashchange', OM.render);
+    loadData().then(OM.render);
+  });
+})(window.OM);
+
+</script>
+</body>
+</html>
